@@ -1,6 +1,6 @@
 "use client"
 import { Payment } from '@/types/json'
-import { Button } from '@mantine/core';
+import { Button, TableTbody, Table, TableTr, MultiSelect, Select} from '@mantine/core';
 import React, { useEffect, useState } from 'react'
 
 type PaymentListProps = {
@@ -10,37 +10,24 @@ type PaymentListProps = {
 const PaymentList = ({payments}:PaymentListProps) => {
   return (
     <div>
-        <table className="w-full text-3xl bg-yellow-100 shadow rounded">
-        <tbody>
+        <Table className="w-full text-3xl bg-yellow-100 shadow rounded #__next">
+        <Table.Tbody>
             {payments.map((payment) => (
-                <tr className="border-2 border-amber-300" key={payment.id}>
-                    <td className="py-2 px-4">{new Date(payment.pay_at).getMonth()+1}/{new Date(payment.pay_at).getDate()}</td>
-                    <td>{new Date(payment.pay_at).getHours().toString().padStart(2, '0')}:{new Date(payment.pay_at).getMinutes().toString().padStart(2, '0')}</td>
-                    <td>{payment.products[0] ? payment.products[0].name:''}{payment.products[1] ? ' など':''}</td>
-                    <td>{payment.price}円</td>
-                    <td><Button>取消</Button></td>
-                </tr>
+                <Table.Tr className="border-2 border-amber-300" key={payment.id}>
+                    <Table.Td className="py-2 px-4">{new Date(payment.pay_at).getMonth()+1}/{new Date(payment.pay_at).getDate()}</Table.Td>
+                    <Table.Td>{new Date(payment.pay_at).getHours().toString().padStart(2, '0')}:{new Date(payment.pay_at).getMinutes().toString().padStart(2, '0')}</Table.Td>
+                    <Table.Td>{payment.products[0] ? payment.products[0].name:''}{payment.products[1] ? ' など':''}</Table.Td>
+                    <Table.Td>{payment.price}円</Table.Td>
+                    <Table.Td><Button>取消</Button></Table.Td>
+                </Table.Tr>
             ))}
-            {/* <tr key={1} className="border-2 border-slate-300">
-                <td className="">1/9 14:21</td>
-                <td>じゃがりこサラダ味</td>
-                <td>120円</td>
-                <td>取消</td>
-            </tr>
-            <tr key={2} className="border-2 border-slate-300">
-                <td>1/9 14:21</td>
-                <td>じゃがりこサラダ味</td>
-                <td>120円</td>
-                <td>取消</td>
-            </tr>
-            <tr key={3} className="border-2 border-slate-300">
-                <td>1/9 14:21</td>
-                <td>じゃがりこ味</td>
-                <td>120円</td>
-                <td>取消</td>
-            </tr> */}
-        </tbody>
-        </table>
+        </Table.Tbody>
+        </Table>
+        <Select
+            label="Your favorite library"
+            placeholder="Pick vvvalue"
+            data={['React', 'Angular', 'Vue', 'Svelte']}
+        />
     </div>
   )
 }
