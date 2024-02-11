@@ -1,6 +1,8 @@
+import { MantineProvider } from '@mantine/core'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import '@mantine/core/styles.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,8 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="container mx-auto bg-yellow-200 text-slate-900">
+      <body className="container mx-auto w-11/12 bg-yellow-200 text-slate-900">
+      <MantineProvider>
         {children}
+      </MantineProvider>
       </body>
     </html>
   )

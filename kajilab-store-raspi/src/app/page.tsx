@@ -5,7 +5,7 @@ import { FormEventHandler } from 'react';
 import React, {useEffect, useState} from 'react';
 import PaymentList from './components/PaymentList';
 import { getPayments } from '@/api';
-import '@mantine/core/styles.css';
+// import '@mantine/core/styles.css';
 // import { useClient } from 'react'; // 追加: useClientをインポート
 
 async function sleep(ms: number) {
@@ -69,17 +69,18 @@ export default async function Home() {
   console.log(payments[0].products)
 
   return (
-    <MantineProvider>
+    <div>
       <div className="text-right mt-2 mb-5">
-        <button className="bg-red-500 rounded py-1 px-2 text-slate-50 #__next">同期</button>
+        {/* <button className="bg-red-500 rounded py-1 px-2 text-slate-50 #__next">同期</button> */}
+        <Button color='red'>同期</Button>
       </div>
       <p className="text-center text-7xl mt-10">商品をスキャンしてください</p>
-      <div className="mt-36">
+      <div className="mt-20">
         <PaymentList payments={payments}/>
       </div>
       <div className="absolute bottom-5">
         <Button fullWidth variant="filled" color='red'>商店係モード</Button>
       </div>
-    </MantineProvider>
+    </div>
   )
 }
