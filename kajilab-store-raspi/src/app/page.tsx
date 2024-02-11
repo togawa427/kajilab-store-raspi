@@ -5,6 +5,7 @@ import { FormEventHandler } from 'react';
 import React, {useEffect, useState} from 'react';
 import PaymentList from './components/PaymentList';
 import { getPayments } from '@/api';
+import Link from 'next/link';
 // import '@mantine/core/styles.css';
 // import { useClient } from 'react'; // 追加: useClientをインポート
 
@@ -80,6 +81,11 @@ export default async function Home() {
       </div>
       <div className="absolute bottom-5">
         <Button fullWidth variant="filled" color='red'>商店係モード</Button>
+      </div>
+      <div className="text-right">
+        <Link href={`http://localhost:3002/payment`}>
+          <Button>購入画面へ</Button>
+        </Link>
       </div>
     </div>
   )
