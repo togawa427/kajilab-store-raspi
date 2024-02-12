@@ -1,6 +1,6 @@
 import { Button } from "@mantine/core";
 import { IconChevronsLeft } from "@tabler/icons-react"
-import * as Payment from "@/app/features/payment/components/index";
+import * as Payment from "@/app/features/payment/components/index"
 import { Product } from "@/types/json";
 
 
@@ -75,12 +75,17 @@ export default async function PaymentPage() {
     return (
         <div>
             <div className="mt-2">
-                <Button>
+                <Button variant="light" color="gray">
                     <IconChevronsLeft/><div className="text-xl">キャンセル</div>
                 </Button>
             </div>
-            <div>
+            <div className="mt-2">
                 <Payment.PaymentProductsList products={buyProducts}/>
+            </div>
+            <div className="mt-2 flex flex-row-reverse">
+                <Payment.TotalPricePanel totalPrice={1000}/>
+                <Payment.PrepaidButton/>
+                <Payment.CashButton/>
             </div>
         </div>
     )
