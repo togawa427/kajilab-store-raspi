@@ -21,7 +21,7 @@ const customColors = {
     300: '#F6CA06',
     DEFAULT: '#F9DB57',
   },
-  orange: {
+  redorange: {
     50:'#FBE9E2',
     100:'#F3C0AB',
     200:'#E6855E',
@@ -34,6 +34,13 @@ const customColors = {
     200:'#E4EC5B',
     300:'#D8E212',
     DEFAULT:'#E4EC5B',
+  },
+  celadon: {
+    50:'#D9F4F1',
+    100:'#95DFD6',
+    200:'#40BFB0',
+    300:'#009F8C',
+    DEFAULT:'#40BFB0',
   }
 
 }
@@ -49,8 +56,9 @@ const config: Config = {
       colors: {
         forest: customColors.forest,
         gamboge: customColors.gamboge,
-        orange: customColors.orange,
+        redorange: customColors.redorange,
         hiwa: customColors.hiwa,
+        celadon: customColors.celadon
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

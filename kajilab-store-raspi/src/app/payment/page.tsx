@@ -2,9 +2,14 @@ import { Button } from "@mantine/core";
 import { IconChevronsLeft } from "@tabler/icons-react"
 import * as Payment from "@/app/features/payment/components/index"
 import { Product } from "@/types/json";
+import Link from "next/link";
+import { getProductByBarcode } from "@/api";
 
 
 export default async function PaymentPage() {
+
+    const product = await getProductByBarcode();
+    console.log(product)
 
     const buyProducts: Product[] = [
         {
@@ -75,9 +80,11 @@ export default async function PaymentPage() {
     return (
         <div>
             <div className="mt-2">
+                <Link href={"/"}>
                 <Button variant="light" color="gray">
                     <IconChevronsLeft/><div className="text-xl">キャンセル</div>
                 </Button>
+                </Link>
             </div>
             <div className="mt-2">
                 <Payment.PaymentProductsList products={buyProducts}/>
