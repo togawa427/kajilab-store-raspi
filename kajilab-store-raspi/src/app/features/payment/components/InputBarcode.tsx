@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
 type InputBarcodePageProps = {
-  setBuyBarcode: any;
+  handleScanBarcode: any;
 }
 
-const InputBarcode = ({setBuyBarcode}: InputBarcodePageProps) => {
+const InputBarcode = ({handleScanBarcode}: InputBarcodePageProps) => {
   const [barcode, setBarcode] = useState(0);
   const [cntEnter, setCtnEnter] = useState(0);
   const router = useRouter();
@@ -21,7 +21,6 @@ const InputBarcode = ({setBuyBarcode}: InputBarcodePageProps) => {
       // バーコードリーダーからの入力は通常Enterキーで終了する
       if (event.key === 'Enter') {
         handleBarcode(barcode);
-        setBuyBarcode(barcode.toString());
         setBarcode(0); // バーコードをクリア
       } else {
         // キーボードからの通常の入力をバーコードに追加
@@ -42,6 +41,8 @@ const InputBarcode = ({setBuyBarcode}: InputBarcodePageProps) => {
     // バーコードがスキャンされたときの処理
     console.log('Scanned Barcode:', scannedBarcode);
     // ここで必要な処理を追加する
+    handleScanBarcode();
+    //setBuyBarcode(barcode);
   };
 
   return (

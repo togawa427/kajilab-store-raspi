@@ -3,12 +3,13 @@ import { Button, ScrollArea, Table } from '@mantine/core'
 import React from 'react'
 import { Product } from '@/types/json'
 import {IconTrash } from '@tabler/icons-react'
+import { BuyProduct } from '../type'
 
 type PaymentProductsListProps = {
-    products: Product[];
+    buyProducts: BuyProduct[];
 }
 
-const PaymentProductsList = ({products}:PaymentProductsListProps) => {
+const PaymentProductsList = ({buyProducts}:PaymentProductsListProps) => {
   return (
     <div className="border-4 border-amber-300 shadow rounded">
         <ScrollArea h={310} scrollbars="y" type="auto">
@@ -23,13 +24,13 @@ const PaymentProductsList = ({products}:PaymentProductsListProps) => {
             </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-            {products.map((product) => (
+            {buyProducts.map((buyProduct) => (
                 // <Table.Tr className="border-2 border-amber-300" key={payment.id}>
-                <Table.Tr className="text-2xl" key={product.id}>
-                    <Table.Td className="text-left">{product.name}</Table.Td>
-                    <Table.Td className="text-right">2</Table.Td>
-                    <Table.Td className="text-right">{product.price}</Table.Td>
-                    <Table.Td className="text-right">240</Table.Td>
+                <Table.Tr className="text-2xl" key={buyProduct.product.id}>
+                    <Table.Td className="text-left">{buyProduct.product.name}</Table.Td>
+                    <Table.Td className="text-right">{buyProduct.quantity}</Table.Td>
+                    <Table.Td className="text-right">{buyProduct.product.price}</Table.Td>
+                    <Table.Td className="text-right">{buyProduct.product.price * buyProduct.quantity}</Table.Td>
                     <Table.Td><Button color="gray"><IconTrash/></Button></Table.Td>
                 </Table.Tr>
             ))}
