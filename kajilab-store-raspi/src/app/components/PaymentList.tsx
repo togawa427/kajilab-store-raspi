@@ -32,7 +32,7 @@ const PaymentList = ({payments}:PaymentListProps) => {
   return (
     <div>
         <Modal opened={opened} onClose={close} title="削除の確認">
-            <PaymentModal deletedPayment={deletedPayment}/>
+            <PaymentModal deletedPayment={deletedPayment} modalDelete={close}/>
         </Modal>
         <div className="border-4 border-amber-300 shadow rounded">
         <Table borderColor="#FCD34D" horizontalSpacing="xl" className="w-full text-3xl bg-yellow-100 border-4 border-amber-300 rounded">

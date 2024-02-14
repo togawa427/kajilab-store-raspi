@@ -15,3 +15,15 @@ export const getProductByBarcode = async (): Promise<Product> => {
     const product = await res.json()
     return product
 }
+
+export const deletePayment = async (id: number) => {
+    const res = await fetch(`http://localhost:8080/api/v1/products/buy/${id}`, {method: "DELETE"});
+
+    if(res.ok){
+        console.log("削除に成功")
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    return
+}
