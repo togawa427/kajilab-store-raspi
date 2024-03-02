@@ -8,39 +8,36 @@ import Link from "next/link";
 import { getProductByBarcode } from "@/api";
 import { useSearchParams } from 'next/navigation';
 import { BuyProduct } from '../type';
+import { updateTotalPrice } from '../utils';
+import { updateAddedProductList } from '@/utils/product';
 
 const Base = () => {
   const [buyProducts, setBuyProducts] = useState<Array<BuyProduct>>([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const updateTotalPrice = () => {
-    let sumPrice = 0
-    buyProducts.map((buyProduct) => (
-      sumPrice = sumPrice + (buyProduct.product.price * buyProduct.quantity)
-    ))
-    setTotalPrice(sumPrice)
-  }
-
   const handleScanBarcode = async (barcode: number) => {
     const buyProduct = await getProductByBarcode(barcode)
-    console.log("商品追加！")
-    console.log("バーコード：")
+    console.log("商品追加！!!")
     console.log(buyProduct)
+    console.log("バーコード：")
     console.log(barcode)
-    setBuyProducts([...buyProducts, {
-      product: buyProduct,
-      quantity: 1
-    }])
+    updateAddedProductList(buyProduct, 1, buyProducts, setBuyProducts)
   }
 
+  // ページ遷移時はパラムデータを使う
   const searchParams = useSearchParams();
   useEffect(() => {
     const paramBarcode = searchParams.get("barcode")
     handleScanBarcode(Number(paramBarcode))
   },[])
 
+  // デバッグ用
+  const showBuyProducts = () => {
+    console.log(buyProducts)
+  }
+
   useEffect(() => {
-    updateTotalPrice()
+    updateTotalPrice(buyProducts, setTotalPrice)
   }, [buyProducts])
 
   return (
@@ -61,6 +58,7 @@ const Base = () => {
           <Payment.PrepaidButton/>
           <Payment.CashButton/>
       </div>
+      <Button onClick={showBuyProducts}>購入リスト</Button>
     </div>
   )
 }

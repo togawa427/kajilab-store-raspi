@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
+import { BuyProduct } from '../type';
 
 type InputBarcodePageProps = {
   handleScanBarcode: any;
@@ -41,7 +42,7 @@ const InputBarcode = ({handleScanBarcode}: InputBarcodePageProps) => {
     // バーコードがスキャンされたときの処理
     console.log('Scanned Barcode:', scannedBarcode);
     // ここで必要な処理を追加する
-    handleScanBarcode();
+    handleScanBarcode(scannedBarcode);
     //setBuyBarcode(barcode);
   };
 
