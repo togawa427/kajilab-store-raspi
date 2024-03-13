@@ -4,12 +4,19 @@ import React from 'react'
 import { Product } from '@/types/json'
 import {IconTrash } from '@tabler/icons-react'
 import { BuyProduct } from '../type'
+import { removeCartProduct } from '@/utils/product'
 
 type PaymentProductsListProps = {
     buyProducts: BuyProduct[];
+    setCartProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>;
 }
 
-const PaymentProductsList = ({buyProducts}:PaymentProductsListProps) => {
+const PaymentProductsList = ({buyProducts, setCartProducts}:PaymentProductsListProps) => {
+
+    const handleRemoveProductButton = (productId: number) => {
+        removeCartProduct(productId, buyProducts, setCartProducts)
+    }
+
   return (
     <div className="border-4 border-amber-300 shadow rounded">
         <ScrollArea h={310} scrollbars="y" type="auto">
@@ -31,7 +38,7 @@ const PaymentProductsList = ({buyProducts}:PaymentProductsListProps) => {
                     <Table.Td className="text-right">{buyProduct.quantity}</Table.Td>
                     <Table.Td className="text-right">{buyProduct.product.price}</Table.Td>
                     <Table.Td className="text-right">{buyProduct.product.price * buyProduct.quantity}</Table.Td>
-                    <Table.Td><Button color="gray"><IconTrash/></Button></Table.Td>
+                    <Table.Td><Button color="black" onClick={() => handleRemoveProductButton(buyProduct.product.id)}><IconTrash/></Button></Table.Td>
                 </Table.Tr>
             ))}
         </Table.Tbody>

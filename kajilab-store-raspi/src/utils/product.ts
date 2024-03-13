@@ -22,3 +22,14 @@ export const updateAddedProductList = (product: Product, quantity: number, added
   setAddedProducts(tmpBuyProducts)
   console.log("商品リストが更新されたよ")
 }
+
+export const removeCartProduct = (productId: number, cartProducts: BuyProduct[], setCartProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>) => {
+  let newCartProducts: BuyProduct[] = []
+  cartProducts.map((cartProduct) => {
+    if(cartProduct.product.id != productId){
+      // 該当の商品以外を新しいカートのリストに入れる
+      newCartProducts.push(cartProduct)
+    }
+  })
+  setCartProducts(newCartProducts)
+}

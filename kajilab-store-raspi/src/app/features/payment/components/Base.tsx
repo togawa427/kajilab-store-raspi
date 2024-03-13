@@ -51,7 +51,10 @@ const Base = () => {
           </Link>
       </div>
       <div className="mt-2">
-          <Payment.PaymentProductsList buyProducts={buyProducts}/>
+          <Payment.PaymentProductsList
+            buyProducts={buyProducts}
+            setCartProducts={setBuyProducts}
+          />
       </div>
       <div className="mt-2 flex flex-row-reverse">
           <Payment.TotalPricePanel totalPrice={totalPrice}/>
@@ -64,70 +67,3 @@ const Base = () => {
 }
 
 export default Base
-
-
-// const buyProducts: Product[] = [
-//     {
-//         id: 1,
-//         name: "じゃがりこサラダ味",
-//         barcode: 123456789,
-//         price: 120,
-//         stock: 8,
-//         tag_id: 1,
-//         image_path: ""
-//     },
-//     {
-//         id: 2,
-//         name: "じゃがりこチーズ味",
-//         barcode: 123456789,
-//         price: 120,
-//         stock: 8,
-//         tag_id: 1,
-//         image_path: ""
-//     },
-//     {
-//         id: 3,
-//         name: "じゃがりこじゃがばた味",
-//         barcode: 123456789,
-//         price: 120,
-//         stock: 8,
-//         tag_id: 1,
-//         image_path: ""
-//     },
-//     {
-//         id: 1,
-//         name: "じゃがりこサラダ味",
-//         barcode: 123456789,
-//         price: 120,
-//         stock: 8,
-//         tag_id: 1,
-//         image_path: ""
-//     },
-//     {
-//         id: 1,
-//         name: "じゃがりこサラダ味",
-//         barcode: 123456789,
-//         price: 120,
-//         stock: 8,
-//         tag_id: 1,
-//         image_path: ""
-//     },
-//     {
-//         id: 1,
-//         name: "じゃがりこサラダ味",
-//         barcode: 123456789,
-//         price: 120,
-//         stock: 8,
-//         tag_id: 1,
-//         image_path: ""
-//     },
-//     {
-//         id: 1,
-//         name: "じゃがりこサラダ味",
-//         barcode: 123456789,
-//         price: 120,
-//         stock: 8,
-//         tag_id: 1,
-//         image_path: ""
-//     },
-//   ]
