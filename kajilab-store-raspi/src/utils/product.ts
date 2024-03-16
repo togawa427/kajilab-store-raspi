@@ -33,3 +33,21 @@ export const removeCartProduct = (productId: number, cartProducts: BuyProduct[],
   })
   setCartProducts(newCartProducts)
 }
+
+export const updateCartProductQuantity = (productId: number, cartProducts: BuyProduct[], newQuantity: number, setCartProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>) => {
+  let newCartProducts: BuyProduct[] = []
+  cartProducts.map((cartProduct) => {
+    if(cartProduct.product.id == productId){
+      // 該当の商品のカートの個数を変更する
+      let newCartProduct: BuyProduct = {
+        product: cartProduct.product,
+        quantity: newQuantity,
+      } 
+      newCartProducts.push(newCartProduct)
+    }
+    else{
+      newCartProducts.push(cartProduct)
+    }
+  })
+  setCartProducts(newCartProducts)
+}

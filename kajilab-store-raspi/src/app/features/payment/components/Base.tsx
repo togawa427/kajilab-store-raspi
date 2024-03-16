@@ -16,11 +16,11 @@ const Base = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   const handleScanBarcode = async (barcode: number) => {
-    const buyProduct = await getProductByBarcode(barcode)
+    const buyProduct = await getProductByBarcode(Number(barcode))
     console.log("商品追加！!!")
     console.log(buyProduct)
     console.log("バーコード：")
-    console.log(barcode)
+    console.log(Number(barcode))
     updateAddedProductList(buyProduct, 1, buyProducts, setBuyProducts)
   }
 

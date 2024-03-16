@@ -16,9 +16,10 @@ const InputBarcode = () => {
     const handleKeyPress = (event:any) => {
       // バーコードリーダーからの入力は通常Enterキーで終了する
       if (event.key === 'Enter') {
-        handleBarcode(barcode);
+        let formattedBarcode = Number(barcode)
+        handleBarcode(formattedBarcode);
         setBarcode(0); // バーコードをクリア
-        router.push(`/payment?barcode=${barcode}`)
+        router.push(`/payment?barcode=${formattedBarcode}`)
         router.refresh()
       } else {
         // キーボードからの通常の入力をバーコードに追加
