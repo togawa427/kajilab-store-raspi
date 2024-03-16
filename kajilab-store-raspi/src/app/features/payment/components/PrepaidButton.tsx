@@ -13,10 +13,10 @@ const PrepaidButton = () => {
     }
 
   return (
-    <button className="py-2 px-5 mx-10 w-3/12 h-52 bg-celadon-100 rounded-xl shadow active:bg-celadon-200" onClick={handleClick}>
-        <IconId style={{ width: rem(100), height: rem(100) }} className="mx-auto mt-0"/>
-        <p className="text-4xl font-bold">支払画面へ</p>
-        <p className="text-4xl font-bold">（学生証）</p>
+    <button className="py-2 px-5 mx-10 w-3/12 h-36 bg-celadon-100 rounded-xl shadow active:bg-celadon-200" onClick={handleClick}>
+        <IconId style={{ width: rem(80), height: rem(80) }} className="mx-auto mt-0"/>
+        <p className="text-3xl font-bold">学生証で支払</p>
+        {/* <p className="text-4xl font-bold">（学生証）</p> */}
     </button>
   )
 }

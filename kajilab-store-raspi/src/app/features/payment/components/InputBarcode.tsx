@@ -48,7 +48,7 @@ const InputBarcode = ({handleScanBarcode}: InputBarcodePageProps) => {
 
   return (
     <div>
-      <p>Scanned Barcode: {barcode}</p>
+      {/* <p>Scanned Barcode: {barcode}</p> */}
     </div>
   )
 }

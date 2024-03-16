@@ -15,9 +15,9 @@ const CashButton = () => {
 
   return (
     <button className="w-3/12 bg-redorange-100 rounded-xl shadow active:bg-redorange-200" onClick={handleClick}>
-        <IconCash style={{ width: rem(100), height: rem(100) }} className="mx-auto mt-0"/>
-        <p className="text-4xl font-bold">支払画面へ</p>
-        <p className="text-4xl font-bold">（現金）</p>
+        <IconCash style={{ width: rem(80), height: rem(80) }} className="mx-auto mt-0"/>
+        <p className="text-3xl font-bold">現金で支払</p>
+        {/* <p className="text-4xl font-bold">（現金）</p> */}
     </button>
   )
 }

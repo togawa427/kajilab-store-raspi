@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import { BuyProduct } from '../type';
 import { updateTotalPrice } from '../utils';
 import { updateAddedProductList } from '@/utils/product';
+import { Notifications, notifications } from '@mantine/notifications';
 
 const Base = () => {
   const [buyProducts, setBuyProducts] = useState<Array<BuyProduct>>([]);
@@ -17,11 +18,19 @@ const Base = () => {
 
   const handleScanBarcode = async (barcode: number) => {
     const buyProduct = await getProductByBarcode(Number(barcode))
-    console.log("商品追加！!!")
-    console.log(buyProduct)
-    console.log("バーコード：")
-    console.log(Number(barcode))
-    updateAddedProductList(buyProduct, 1, buyProducts, setBuyProducts)
+    if(buyProduct.id != null){
+      updateAddedProductList(buyProduct, 1, buyProducts, setBuyProducts)
+    }
+    else{
+      notifications.show({
+        title: "存在しないバーコード",
+        message: "未登録のバーコードが読み込まれました",
+        color:"red",
+        style: (theme) => ({
+          style: { backgroundColor: 'red' }
+        })
+      })
+    }
   }
 
   // ページ遷移時はパラムデータを使う
@@ -61,7 +70,8 @@ const Base = () => {
           <Payment.PrepaidButton/>
           <Payment.CashButton/>
       </div>
-      <Button onClick={showBuyProducts}>購入リスト</Button>
+      {/* <Button onClick={showBuyProducts}>購入リスト</Button> */}
+      <Notifications/>
     </div>
   )
 }
