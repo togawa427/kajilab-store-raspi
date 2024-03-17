@@ -4,12 +4,17 @@ import { IconId } from '@tabler/icons-react'
 import { rem } from '@mantine/core'
 import { useRouter } from 'next/navigation'
 
-const PrepaidButton = () => {
+type PrepaidButtonPageProps = {
+  changePrepaidMode: any;
+}
+
+const PrepaidButton = ({changePrepaidMode}: PrepaidButtonPageProps) => {
   const router = useRouter()
 
     const handleClick = () => {
-        router.push("/payment/prepaid")
-        router.refresh()
+      changePrepaidMode()
+        // router.push("/payment/prepaid")
+        // router.refresh()
     }
 
   return (

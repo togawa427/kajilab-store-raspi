@@ -5,12 +5,17 @@ import React from 'react'
 import {IconCash} from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 
-const CashButton = () => {
+type CashButtonPageProps = {
+  changeCashMode: any;
+}
+
+const CashButton = ({changeCashMode}: CashButtonPageProps) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/payment/cash")
-    router.refresh()
+    changeCashMode()
+    // router.push("/payment/cash")
+    // router.refresh()
   }
 
   return (

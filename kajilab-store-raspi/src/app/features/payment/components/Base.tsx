@@ -13,6 +13,7 @@ import { updateAddedProductList } from '@/utils/product';
 import { Notifications, notifications } from '@mantine/notifications';
 
 const Base = () => {
+  const [paymentMode, setPaymentMode] = useState(0) // 0:カート 1:現金 2:学生証
   const [buyProducts, setBuyProducts] = useState<Array<BuyProduct>>([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -36,6 +37,7 @@ const Base = () => {
   // ページ遷移時はパラムデータを使う
   const searchParams = useSearchParams();
   useEffect(() => {
+    
     const paramBarcode = searchParams.get("barcode")
     handleScanBarcode(Number(paramBarcode))
   },[])
@@ -49,31 +51,49 @@ const Base = () => {
     updateTotalPrice(buyProducts, setTotalPrice)
   }, [buyProducts])
 
-  return (
-    <div>
-      <Payment.InputBarcode handleScanBarcode={handleScanBarcode}/>
-      <div className="mt-2">
-          <Link href={"/"}>
-          <Button variant="light" color="gray">
-              <IconChevronsLeft/><div className="text-xl">キャンセル</div>
-          </Button>
-          </Link>
+  if(paymentMode == 0){
+    return (
+      <div>
+        <Payment.InputBarcode handleScanBarcode={handleScanBarcode}/>
+        <div className="mt-2">
+            <Link href={"/"}>
+            <Button variant="light" color="gray">
+                <IconChevronsLeft/><div className="text-xl">キャンセル</div>
+            </Button>
+            </Link>
+        </div>
+        <div className="mt-2">
+            <Payment.PaymentProductsList
+              buyProducts={buyProducts}
+              setCartProducts={setBuyProducts}
+            />
+        </div>
+        <div className="mt-2 flex flex-row-reverse">
+            <Payment.TotalPricePanel totalPrice={totalPrice}/>
+            <Payment.PrepaidButton changePrepaidMode={() => setPaymentMode(2)}/>
+            <Payment.CashButton changeCashMode={() => setPaymentMode(1)}/>
+        </div>
+        {/* <Button onClick={() => setPaymentMode(1)}>現金テスト</Button> */}
+        <Notifications/>
       </div>
-      <div className="mt-2">
-          <Payment.PaymentProductsList
-            buyProducts={buyProducts}
-            setCartProducts={setBuyProducts}
-          />
+    )
+  }
+  else if(paymentMode == 1) {
+    return(
+      <div>
+        現金
+        <Button onClick={() => setPaymentMode(0)}>キャンセル</Button>
       </div>
-      <div className="mt-2 flex flex-row-reverse">
-          <Payment.TotalPricePanel totalPrice={totalPrice}/>
-          <Payment.PrepaidButton/>
-          <Payment.CashButton/>
+    )
+  }
+  else if(paymentMode == 2) {
+    return(
+      <div>
+        学生証
+        <Button onClick={() => setPaymentMode(0)}>キャンセル</Button>
       </div>
-      {/* <Button onClick={showBuyProducts}>購入リスト</Button> */}
-      <Notifications/>
-    </div>
-  )
+    )
+  }
 }
 
 export default Base
