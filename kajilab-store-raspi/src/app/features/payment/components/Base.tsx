@@ -1,16 +1,18 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Button } from "@mantine/core";
+import { Button, LoadingOverlay } from "@mantine/core";
 import { IconChevronsLeft } from "@tabler/icons-react"
 import * as Payment from "@/app/features/payment/components/Index"
 import { Product } from "@/types/json";
 import Link from "next/link";
-import { getProductByBarcode } from "@/api";
+import { createPayment, getProductByBarcode } from "@/api";
 import { useSearchParams } from 'next/navigation';
 import { BuyProduct } from '../type';
 import { updateTotalPrice } from '../utils';
 import { updateAddedProductList } from '@/utils/product';
 import { Notifications, notifications } from '@mantine/notifications';
+import Cash from './Cash';
+import Credit from './Credit';
 
 const Base = () => {
   const [paymentMode, setPaymentMode] = useState(0) // 0:カート 1:現金 2:学生証
@@ -32,6 +34,14 @@ const Base = () => {
         })
       })
     }
+  }
+
+  const handleCashPayButton= async () => {
+    // changePrepaidMode()
+      // router.push("/payment/prepaid")
+      // router.refresh()
+    console.log("現金提出")
+    const status = await createPayment(buyProducts, "cash")
   }
 
   // ページ遷移時はパラムデータを使う
@@ -81,16 +91,18 @@ const Base = () => {
   else if(paymentMode == 1) {
     return(
       <div>
-        現金
-        <Button onClick={() => setPaymentMode(0)}>キャンセル</Button>
+        <Payment.Cash
+          totalPrice={totalPrice}
+          setPaymentModeBase={() => setPaymentMode(0)}
+          handleCashPayButton={handleCashPayButton}
+        />
       </div>
     )
   }
   else if(paymentMode == 2) {
     return(
       <div>
-        学生証
-        <Button onClick={() => setPaymentMode(0)}>キャンセル</Button>
+        <Payment.Credit totalPrice={totalPrice} setPaymentModeBase={() => setPaymentMode(0)}/>
       </div>
     )
   }

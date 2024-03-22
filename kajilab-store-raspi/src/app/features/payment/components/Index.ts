@@ -4,5 +4,7 @@ import TotalPricePanel from "./TotalPricePanel";
 import CashButton from "./CashButton";
 import PrepaidButton from "./PrepaidButton";
 import InputBarcode from "./InputBarcode";
+import Cash from "./Cash";
+import Credit from "./Credit";
 
-export { Base, PaymentProductsList, TotalPricePanel, CashButton, PrepaidButton, InputBarcode };
+export { Base, Cash, Credit, PaymentProductsList, TotalPricePanel, CashButton, PrepaidButton, InputBarcode };
