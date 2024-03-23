@@ -6,6 +6,7 @@ import PaymentList from './PaymentList';
 import InputBarcode from './InputBarcode';
 import { Payment } from '@/types/json';
 import { useDisclosure } from '@mantine/hooks';
+import { Notifications, notifications } from '@mantine/notifications';
 
 type RootPageProps = {
   payments: Payment[];
@@ -33,6 +34,7 @@ const RootPage = ({payments}:RootPageProps) => {
           <Button>購入画面へ</Button>
         </Link>
       </div> */}
+      <Notifications/>
     </div>
   )
 }

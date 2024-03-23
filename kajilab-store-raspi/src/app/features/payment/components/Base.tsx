@@ -38,6 +38,7 @@ const Base = () => {
     }
   }
 
+  // 現金で「投入完了」を押した時の処理
   const handleCashPayButton= async () => {
     // changePrepaidMode()
     console.log("現金提出")
