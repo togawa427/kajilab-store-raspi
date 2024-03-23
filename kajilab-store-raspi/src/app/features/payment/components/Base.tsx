@@ -6,7 +6,7 @@ import * as Payment from "@/app/features/payment/components/Index"
 import { Product } from "@/types/json";
 import Link from "next/link";
 import { createPayment, getProductByBarcode } from "@/api";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { BuyProduct } from '../type';
 import { updateTotalPrice } from '../utils';
 import { updateAddedProductList } from '@/utils/product';
@@ -18,6 +18,8 @@ const Base = () => {
   const [paymentMode, setPaymentMode] = useState(0) // 0:カート 1:現金 2:学生証
   const [buyProducts, setBuyProducts] = useState<Array<BuyProduct>>([]);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const router = useRouter();
 
   const handleScanBarcode = async (barcode: number) => {
     const buyProduct = await getProductByBarcode(Number(barcode))
@@ -38,10 +40,10 @@ const Base = () => {
 
   const handleCashPayButton= async () => {
     // changePrepaidMode()
-      // router.push("/payment/prepaid")
-      // router.refresh()
     console.log("現金提出")
     const status = await createPayment(buyProducts, "cash")
+    router.push("/")
+    router.refresh()
   }
 
   // ページ遷移時はパラムデータを使う

@@ -5,11 +5,13 @@ type CreatePaymentType = {
     pay_at: string;
     method: string,
     user_number: string,
-    products: {
-        id: number;
-        quantity: number;
-        unit_price: number,
-    }[],
+    products: CreatePaymentProductType[],
+}
+
+type CreatePaymentProductType = {
+    id: number;
+    quantity: number;
+    unit_price: number;
 }
 
 export const getPayments = async (): Promise<Payment[]> => {
@@ -43,17 +45,19 @@ export const deletePayment = async (id: number) => {
 
 export const createPayment = async (buyProducts: BuyProduct[], method: string) => {
     const currentDatetime = new Date().toISOString();
+    let cartProducts: CreatePaymentProductType[] = []
+    buyProducts.map((buyProduct) => (
+        cartProducts.push({
+            id: buyProduct.product.id,
+            quantity: buyProduct.quantity,
+            unit_price: buyProduct.product.price,
+        })
+    ))
     const requestPayment:CreatePaymentType = {
         pay_at: currentDatetime,
         method: method,
         user_number: "",
-        products:[
-            {
-                id: 3,
-                quantity: 2,
-                unit_price: 120,
-            }
-        ]
+        products: cartProducts
     }
 
     const res = await fetch(`http://localhost:8080/api/v1/products/buy`, {
