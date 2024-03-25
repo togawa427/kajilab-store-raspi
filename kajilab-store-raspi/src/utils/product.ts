@@ -1,6 +1,7 @@
 import { getProductByBarcode } from "@/api";
 import { BuyProduct } from "@/app/features/payment/type";
 import { Product } from "@/types/json";
+import { CartProduct } from "@/types/product";
 
 export const updateAddedProductList = (product: Product, quantity: number, addedProducts: BuyProduct[], setAddedProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>) => {
   let isAdded = false
@@ -50,4 +51,12 @@ export const updateCartProductQuantity = (productId: number, cartProducts: BuyPr
     }
   })
   setCartProducts(newCartProducts)
+}
+
+export const updateTotalPrice = (buyProducts: CartProduct[], setTotalPrice: React.Dispatch<React.SetStateAction<number>>) => {
+  let sumPrice = 0
+    buyProducts.map((buyProduct) => (
+      sumPrice = sumPrice + (buyProduct.product.price * buyProduct.quantity)
+    ))
+    setTotalPrice(sumPrice)
 }
