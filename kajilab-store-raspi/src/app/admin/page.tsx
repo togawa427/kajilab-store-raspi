@@ -2,9 +2,12 @@ import { Button } from '@mantine/core'
 import Link from 'next/link'
 import React from 'react'
 import * as Admin from "@/app/features/admin/components/Index"
+import { getArrivals } from '@/api'
 // import ArrivalList from '../features/admin/components/ArrivalList'
 
-const AdminHome = () => {
+export default async function AdminHome() {
+
+  const arrivals = await getArrivals();
   return (
     <div>
         <div className="flex mt-10">
@@ -16,7 +19,7 @@ const AdminHome = () => {
             </Link>
         </div>
         <div className="mt-10">
-            <Admin.ArrivalList/>
+            <Admin.ArrivalList arrivals={arrivals}/>
         </div>
         <div className="absolute bottom-5">
         <Link href={"/"}>
@@ -26,5 +29,3 @@ const AdminHome = () => {
     </div>
   )
 }
-
-export default AdminHome

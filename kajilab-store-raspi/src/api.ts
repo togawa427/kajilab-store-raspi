@@ -1,5 +1,5 @@
 import { BuyProduct } from "./app/features/payment/type";
-import { Payment, Product } from "./types/json";
+import { Arrival, Payment, Product } from "./types/json";
 import { CartProduct } from "./types/product";
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -46,6 +46,17 @@ export const getProductByBarcode = async (barcode: number): Promise<Product> => 
     const product = await res.json()
     return product
 }
+
+export const getArrivals = async (): Promise<Arrival[]> => {
+    //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
+    const res = await fetch(`${baseURL}/api/v1/products/arrive/logs?limit=5`, {cache: "no-store"})  // SSR
+    console.log(res)
+
+    const arrivals = await res.json()
+    console.log(arrivals)
+    return arrivals
+}
+
 
 export const deletePayment = async (id: number) => {
     const res = await fetch(`${baseURL}/api/v1/products/buy/${id}`, {method: "DELETE"});
