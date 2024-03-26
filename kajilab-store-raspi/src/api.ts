@@ -65,10 +65,23 @@ export const deletePayment = async (id: number) => {
         console.log("削除に成功")
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     return
 }
+
+export const deleteArrival = async (id: number) => {
+    const res = await fetch(`${baseURL}/api/v1/products/arrival/${id}`, {method: "DELETE"});
+
+    if(res.ok){
+        console.log("削除に成功")
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    return
+}
+
 
 export const createPayment = async (buyProducts: BuyProduct[], method: string) => {
     const currentDatetime = new Date().toISOString();

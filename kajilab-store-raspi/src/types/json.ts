@@ -19,7 +19,7 @@ export type Arrival = {
     id: number;
     money: number;
     value: number;
-    arrive_at: string;
+    arrive_at: Date;
     products: ArrivalProduct[];
 }
 
