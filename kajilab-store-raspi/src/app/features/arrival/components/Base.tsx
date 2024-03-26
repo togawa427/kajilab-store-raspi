@@ -5,7 +5,7 @@ import { IconChevronsLeft } from "@tabler/icons-react"
 import * as Arrival from "@/app/features/arrival/components/Index"
 import { Product } from "@/types/json";
 import Link from "next/link";
-import { createPayment, getProductByBarcode } from "@/api";
+import { createArrival, createPayment, getProductByBarcode } from "@/api";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CartProduct } from '@/types/product';
 import { updateAddedProductList, updateTotalPrice } from '@/utils/product';
@@ -37,8 +37,10 @@ const Base = () => {
     }
   }
 
-  const handleConfirmButton = () => {
-    console.log("かくていされちった")
+  const handleConfirmButton = async () => {
+    const status = await createArrival(cartProducts, totalWithdrawal)
+    router.push("/admin")
+    router.refresh()
   }
 
   // デバッグ用
