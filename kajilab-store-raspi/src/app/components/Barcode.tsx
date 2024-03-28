@@ -3,11 +3,13 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
 type InputBarcodePageProps = {
+  barcode: number;
+  setBarcode: React.Dispatch<React.SetStateAction<number>>;
   handleScanBarcode: any;
 }
 
-const Barcode = ({handleScanBarcode}: InputBarcodePageProps) => {
-  const [barcode, setBarcode] = useState(0);
+const Barcode = ({handleScanBarcode, barcode, setBarcode}: InputBarcodePageProps) => {
+  // const [barcode, setBarcode] = useState(0);
   const [cntEnter, setCtnEnter] = useState(0);
   const router = useRouter();
   // const [barcodeArray, setBarcodeArray] = useState([12345678]);
@@ -21,8 +23,11 @@ const Barcode = ({handleScanBarcode}: InputBarcodePageProps) => {
       // バーコードリーダーからの入力は通常Enterキーで終了する
       if (event.key === 'Enter') {
         handleBarcode(barcode);
-        setBarcode(0); // バーコードをクリア
-      } else {
+      }
+      else if(event.key === ' ') {
+        setBarcode(0)
+      }
+      else {
         // キーボードからの通常の入力をバーコードに追加
         setBarcode((prev) => prev + event.key);
       }
@@ -42,12 +47,13 @@ const Barcode = ({handleScanBarcode}: InputBarcodePageProps) => {
     console.log('Scanned Barcode:', scannedBarcode);
     // ここで必要な処理を追加する
     handleScanBarcode(scannedBarcode);
+    setBarcode(0); // バーコードをクリア
     //setBuyBarcode(barcode);
   };
 
   return (
     <div>
-      {/* <p>Scanned Barcode: {barcode}</p> */}
+      <p>Scanned Barcode: {barcode}(スペースでリセット)</p>
     </div>
   )
 }

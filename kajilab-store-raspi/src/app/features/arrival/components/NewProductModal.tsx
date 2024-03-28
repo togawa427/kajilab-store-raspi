@@ -9,9 +9,10 @@ import React, { useState } from 'react'
 type NewProductModalProps = {
   modalDelete: () => void;
   barcode: number;
+  setBarcode: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const NewProductModal = ({modalDelete, barcode}: NewProductModalProps) => {
+const NewProductModal = ({modalDelete, barcode, setBarcode}: NewProductModalProps) => {
   const [loading, {toggle}] = useDisclosure();
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
@@ -26,22 +27,39 @@ const NewProductModal = ({modalDelete, barcode}: NewProductModalProps) => {
   return (
     <div>
       <form>
-        <div className='text-xl'>
+        <div className='mb-3 text-xl'>
           JAN: {barcode}
         </div>
         <TextInput
+          size='md'
           label="商品名"
-          placeholder="じゃがりこサラダ味"
+          placeholder="じゃがりこサラダ味(12文字以内)"
+          error={name.length > 12 || name.length == 0 ? "商品名を12文字以内で入力してください" : ""}
           value={name}
           onChange={(e) => setName(e.currentTarget.value)}
         />
         <NumberInput
+          size='md'
           label="価格"
           placeholder="100"
           value={price}
-          onChange={(e) => setPrice(Number(e))}
+          error={price == 0 ? "価格を設定してください": ""}
+          onChange={(e) => {
+            setPrice(Number(e))
+            setBarcode(0)
+          }}
         />
-        <Button fullWidth onClick={handleNewCreateProduct} className="mt-5">登録</Button>
+        <Button
+          fullWidth
+          onClick={() => {
+            if(!(name.length > 12 || name.length == 0 || price == 0)){
+              console.log("条件満たしてるボタンタップ")
+              handleNewCreateProduct()
+            }
+          }}
+        >
+          登録
+        </Button>
       </form>
     </div>
   )

@@ -19,26 +19,20 @@ const Base = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalWithdrawal, setTotalWithdrawal] = useState(0);
   const [scanedBarcode, setScanedBarcode] = useState(0);
+  const [newProductBarcode, setNewProductBarcode] = useState(0);
   const [opened, { open, close }] = useDisclosure(false);
 
   const router = useRouter();
 
   const handleScanBarcode = async (barcode: number) => {
     const cartProduct = await getProductByBarcode(Number(barcode))
-    setScanedBarcode(Number(barcode))
     if(cartProduct.id != null){
       updateAddedProductList(cartProduct, 1, cartProducts, setCartProducts)
     }
     else{
+      // 新商品の場合
+      setNewProductBarcode(Number(barcode))
       open()
-      // notifications.show({
-      //   title: "存在しないバーコード",
-      //   message: "未登録のバーコードが読み込まれました",
-      //   color:"red",
-      //   style: (theme) => ({
-      //     style: { backgroundColor: 'red' }
-      //   })
-      // })
     }
   }
 
@@ -47,21 +41,16 @@ const Base = () => {
     router.push("/admin")
     router.refresh()
   }
-
-  // デバッグ用
-  const showCartProducts = () => {
-    console.log(cartProducts)
-  }
-
+  
   useEffect(() => {
     updateTotalPrice(cartProducts, setTotalPrice)
   }, [cartProducts])
 
   return (
     <div>
-      <Barcode handleScanBarcode={handleScanBarcode}/>
+      <Barcode barcode={scanedBarcode} setBarcode={setScanedBarcode} handleScanBarcode={handleScanBarcode}/>
       <Modal size="60%" opened={opened} onClose={close} title="新商品の登録">
-        <Arrival.NewProductModal modalDelete={close} barcode={scanedBarcode}/>
+        <Arrival.NewProductModal modalDelete={close} barcode={newProductBarcode} setBarcode={setScanedBarcode}/>
       </Modal>
       <div className="mt-2">
           <Link href={"/admin"}>
@@ -79,7 +68,7 @@ const Base = () => {
       <div className="mt-2 flex flex-row-reverse">
         <div>
           <Arrival.TotalPricePanel totalPrice={totalPrice}/>
-          <Arrival.TotalWithdrawalPanel totalWithdrawal={totalWithdrawal} setTotalWithDrawal={setTotalWithdrawal}/>
+          <Arrival.TotalWithdrawalPanel totalWithdrawal={totalWithdrawal} setTotalWithDrawal={setTotalWithdrawal} setScanedBarcode={setScanedBarcode}/>
         </div>
         <Arrival.ConfirmButton handleConfirmButton={handleConfirmButton}/>
       </div>
