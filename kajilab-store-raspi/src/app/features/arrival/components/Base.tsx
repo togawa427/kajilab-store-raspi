@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Button, LoadingOverlay } from "@mantine/core";
+import { Button, LoadingOverlay, Modal } from "@mantine/core";
 import { IconChevronsLeft } from "@tabler/icons-react"
 import * as Arrival from "@/app/features/arrival/components/Index"
 import { Product } from "@/types/json";
@@ -12,28 +12,33 @@ import { updateAddedProductList, updateTotalPrice } from '@/utils/product';
 import { Notifications, notifications } from '@mantine/notifications';
 import Barcode from '@/app/components/Barcode';
 import CartProductsList from '@/app/components/CartProductsList';
+import { useDisclosure } from '@mantine/hooks';
 
 const Base = () => {
   const [cartProducts, setCartProducts] = useState<Array<CartProduct>>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalWithdrawal, setTotalWithdrawal] = useState(0);
+  const [scanedBarcode, setScanedBarcode] = useState(0);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const router = useRouter();
 
   const handleScanBarcode = async (barcode: number) => {
     const cartProduct = await getProductByBarcode(Number(barcode))
+    setScanedBarcode(Number(barcode))
     if(cartProduct.id != null){
       updateAddedProductList(cartProduct, 1, cartProducts, setCartProducts)
     }
     else{
-      notifications.show({
-        title: "存在しないバーコード",
-        message: "未登録のバーコードが読み込まれました",
-        color:"red",
-        style: (theme) => ({
-          style: { backgroundColor: 'red' }
-        })
-      })
+      open()
+      // notifications.show({
+      //   title: "存在しないバーコード",
+      //   message: "未登録のバーコードが読み込まれました",
+      //   color:"red",
+      //   style: (theme) => ({
+      //     style: { backgroundColor: 'red' }
+      //   })
+      // })
     }
   }
 
@@ -55,8 +60,11 @@ const Base = () => {
   return (
     <div>
       <Barcode handleScanBarcode={handleScanBarcode}/>
+      <Modal size="60%" opened={opened} onClose={close} title="新商品の登録">
+        <Arrival.NewProductModal modalDelete={close} barcode={scanedBarcode}/>
+      </Modal>
       <div className="mt-2">
-          <Link href={"/"}>
+          <Link href={"/admin"}>
           <Button variant="light" color="gray">
               <IconChevronsLeft/><div className="text-xl">キャンセル</div>
           </Button>

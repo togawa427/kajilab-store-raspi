@@ -145,12 +145,12 @@ export const createArrival = async (arrivalProducts: CartProduct[], withdrawal: 
 }
 
 // export const createProduct = async (newProduct: Product): Promise<number> => {
-export const createProduct = async (): Promise<number> => {
+export const createProduct = async (name: string, barcode:number, price: number, tag_id: number): Promise<number> => {
     let requestProduct: CreateProductType = {
-        name: "テスト1",
-        barcode: 12345678911,
-        price: 200,
-        tag_id: 1,
+        name: name,
+        barcode: barcode,
+        price: price,
+        tag_id: tag_id,
     }
 
     const res = await fetch(`${baseURL}/api/v1/products`, {
