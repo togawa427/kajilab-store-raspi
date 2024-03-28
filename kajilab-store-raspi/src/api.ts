@@ -28,6 +28,13 @@ type CreateArrivalProductType = {
     quantity: number;
 }
 
+type CreateProductType = {
+    name: string;
+    barcode: number;
+    price: number;
+    tag_id: number;
+}
+
 export const getPayments = async (): Promise<Payment[]> => {
     //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
     const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {cache: "no-store"})  // SSR
@@ -134,5 +141,26 @@ export const createArrival = async (arrivalProducts: CartProduct[], withdrawal: 
 
     console.log(res.status)
 
+    return res.status
+}
+
+// export const createProduct = async (newProduct: Product): Promise<number> => {
+export const createProduct = async (): Promise<number> => {
+    let requestProduct: CreateProductType = {
+        name: "テスト1",
+        barcode: 12345678911,
+        price: 200,
+        tag_id: 1,
+    }
+
+    const res = await fetch(`${baseURL}/api/v1/products`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestProduct)
+    });
+
+    console.log(res.status)
     return res.status
 }
