@@ -15,6 +15,22 @@ export type PaymentProduct = {
     unit_price: number;
 }
 
+export type Arrival = {
+    id: number;
+    money: number;
+    value: number;
+    arrive_at: Date;
+    products: ArrivalProduct[];
+}
+
+export type ArrivalProduct = {
+    id: number;
+    name: string;
+    barcode: number;
+    quantity: number;
+    unit_price: number;
+}
+
 export type Product = {
     id: number;
     name: string;

@@ -1,5 +1,8 @@
 import { BuyProduct } from "./app/features/payment/type";
-import { Payment, Product } from "./types/json";
+import { Arrival, Payment, Product } from "./types/json";
+import { CartProduct } from "./types/product";
+
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 type CreatePaymentType = {
     pay_at: string;
@@ -14,9 +17,36 @@ type CreatePaymentProductType = {
     unit_price: number;
 }
 
+type CreateArrivalType = {
+    arrive_at: string;
+    money: number;
+    products: CreateArrivalProductType[];
+}
+
+type CreateArrivalProductType = {
+    id: number;
+    quantity: number;
+}
+
+type CreateProductType = {
+    name: string;
+    barcode: number;
+    price: number;
+    tag_id: number;
+}
+
+type UpdateProductType = {
+    id: number;
+    name: string;
+    barcode: number;
+    price: number;
+    stock: number;
+    tag_id: number;
+}
+
 export const getPayments = async (): Promise<Payment[]> => {
     //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
-    const res = await fetch("http://160.251.136.93:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
+    const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {cache: "no-store"})  // SSR
     console.log(res)
 
     const payments = await res.json()
@@ -26,24 +56,48 @@ export const getPayments = async (): Promise<Payment[]> => {
 export const getProductByBarcode = async (barcode: number): Promise<Product> => {
     //const res = await fetch(`http://localhost:8080/api/v1/products/134912341232`, {cache: "no-store"})
     // const res = await fetch(`http://localhost:8080/api/v1/products/${barcode}`, {cache: "no-store"})
-    const res = await fetch(`http://160.251.136.93:8080/api/v1/products/${barcode}`, {cache: "no-store"})
+    const res = await fetch(`${baseURL}/api/v1/products/${barcode}`, {cache: "no-store"})
     console.log(res)
 
     const product = await res.json()
     return product
 }
 
+export const getArrivals = async (): Promise<Arrival[]> => {
+    //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
+    const res = await fetch(`${baseURL}/api/v1/products/arrive/logs?limit=5`, {cache: "no-store"})  // SSR
+    console.log(res)
+
+    const arrivals = await res.json()
+    console.log(arrivals)
+    return arrivals
+}
+
+
 export const deletePayment = async (id: number) => {
-    const res = await fetch(`http://160.251.136.93:8080/api/v1/products/buy/${id}`, {method: "DELETE"});
+    const res = await fetch(`${baseURL}/api/v1/products/buy/${id}`, {method: "DELETE"});
 
     if(res.ok){
         console.log("削除に成功")
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     return
 }
+
+export const deleteArrival = async (id: number) => {
+    const res = await fetch(`${baseURL}/api/v1/products/arrival/${id}`, {method: "DELETE"});
+
+    if(res.ok){
+        console.log("削除に成功")
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    return
+}
+
 
 export const createPayment = async (buyProducts: BuyProduct[], method: string) => {
     const currentDatetime = new Date().toISOString();
@@ -62,11 +116,82 @@ export const createPayment = async (buyProducts: BuyProduct[], method: string) =
         products: cartProducts
     }
 
-    const res = await fetch(`http://160.251.136.93:8080/api/v1/products/buy`, {
+    const res = await fetch(`${baseURL}/api/v1/products/buy`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(requestPayment)
     });
+}
+
+export const createArrival = async (arrivalProducts: CartProduct[], withdrawal: number): Promise<number> => {
+    const currentDatetime = new Date().toISOString();
+    let cartProducts: CreateArrivalProductType[] = []
+    arrivalProducts.map((arrivalProduct) => (
+        cartProducts.push({
+            id: arrivalProduct.product.id,
+            quantity: arrivalProduct.quantity,
+        })
+    ))
+    const requestArrival: CreateArrivalType = {
+        arrive_at: currentDatetime,
+        money: withdrawal,
+        products: cartProducts
+    }
+
+    const res = await fetch(`${baseURL}/api/v1/products/arrive`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestArrival)
+    });
+
+    console.log(res.status)
+
+    return res.status
+}
+
+// export const createProduct = async (newProduct: Product): Promise<number> => {
+export const createProduct = async (name: string, barcode:number, price: number, tag_id: number): Promise<number> => {
+    let requestProduct: CreateProductType = {
+        name: name,
+        barcode: barcode,
+        price: price,
+        tag_id: tag_id,
+    }
+
+    const res = await fetch(`${baseURL}/api/v1/products`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestProduct)
+    });
+
+    console.log(res.status)
+    return res.status
+}
+
+export const updateProduct = async (id: number, name: string, barcode: number, price: number, stock: number, tagId: number): Promise<number> => {
+    let requestProduct: UpdateProductType = {
+        id: id,
+        name: name,
+        barcode: barcode,
+        price: price,
+        stock: stock,
+        tag_id: tagId, 
+    }
+
+    const res = await fetch(`${baseURL}/api/v1/products`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestProduct)
+    })
+
+    console.log(res.status)
+    return res.status
 }

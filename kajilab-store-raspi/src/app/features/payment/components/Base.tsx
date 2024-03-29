@@ -13,11 +13,13 @@ import { updateAddedProductList } from '@/utils/product';
 import { Notifications, notifications } from '@mantine/notifications';
 import Cash from './Cash';
 import Credit from './Credit';
+import { useDisclosure } from '@mantine/hooks';
 
 const Base = () => {
   const [paymentMode, setPaymentMode] = useState(0) // 0:カート 1:現金 2:学生証
   const [buyProducts, setBuyProducts] = useState<Array<BuyProduct>>([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [loading, {toggle}] = useDisclosure();
 
   const router = useRouter();
 
@@ -41,10 +43,14 @@ const Base = () => {
   // 現金で「投入完了」を押した時の処理
   const handleCashPayButton= async () => {
     // changePrepaidMode()
-    console.log("現金提出")
-    const status = await createPayment(buyProducts, "cash")
-    router.push("/")
-    router.refresh()
+    if(!loading){
+      toggle
+      console.log("現金提出")
+      const status = await createPayment(buyProducts, "cash")
+      toggle
+      router.push("/")
+      router.refresh()
+    }
   }
 
   // ページ遷移時はパラムデータを使う
@@ -98,6 +104,7 @@ const Base = () => {
           totalPrice={totalPrice}
           setPaymentModeBase={() => setPaymentMode(0)}
           handleCashPayButton={handleCashPayButton}
+          loading={loading}
         />
       </div>
     )

@@ -36,7 +36,7 @@ const CartProductsList = ({cartProducts, setCartProducts}:CartProductsListProps)
         <Table.Thead>
             <Table.Tr className="text-2xl">
                 <Table.Th className="bg-[#B88F2C]"><div className="text-center text-white">商品名</div></Table.Th>
-                <Table.Th className="bg-[#B88F2C]"><div className="text-center text-white">数</div></Table.Th>
+                <Table.Th className="bg-[#B88F2C]"><div className="text-center text-white">数(入荷後)</div></Table.Th>
                 <Table.Th className="bg-[#B88F2C]"><div className="text-center text-white">単価</div></Table.Th>
                 <Table.Th className="bg-[#B88F2C]"><div className="text-center text-white">売価計</div></Table.Th>
                 <Table.Th className="w-5 bg-[#B88F2C]"><div className="text-center text-white">消去</div></Table.Th>
@@ -52,7 +52,7 @@ const CartProductsList = ({cartProducts, setCartProducts}:CartProductsListProps)
                             <div className="text-xl">ー</div>
                         </ActionIcon>
                         <div className="flex-1">
-                            {cartProduct.quantity}
+                            {cartProduct.quantity} ({cartProduct.product.stock + cartProduct.quantity})
                             {/* <NumberInput
                                 value={cartProduct.quantity}
                                 onChange={(val) => handleChangeProductQuantity(cartProduct.product.id, val)}
@@ -64,6 +64,8 @@ const CartProductsList = ({cartProducts, setCartProducts}:CartProductsListProps)
                         <ActionIcon size={35} variant="default" onClick={() => handleIncrementProductQuantity(cartProduct)} className="flex-1">
                             <div className="text-xl">＋</div>
                         </ActionIcon>
+                        <div>
+                        </div>
                     </Table.Td>
                     <Table.Td className="text-right">{cartProduct.product.price}</Table.Td>
                     <Table.Td className="text-right">{cartProduct.product.price * cartProduct.quantity}</Table.Td>

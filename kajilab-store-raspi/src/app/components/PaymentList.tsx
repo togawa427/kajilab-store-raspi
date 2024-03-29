@@ -40,7 +40,7 @@ const PaymentList = ({payments}:PaymentListProps) => {
             {payments.map((payment) => (
                 // <Table.Tr className="border-2 border-amber-300" key={payment.id}>
                 <Table.Tr className="text-2xl" key={payment.id}>
-                    <Table.Td>{new Date(payment.pay_at).getMonth()+1}/{new Date(payment.pay_at).getDate()}</Table.Td>
+                    <Table.Td>{new Date(payment.pay_at).getMonth()+1}/{new Date(payment.pay_at).getDate()} </Table.Td>
                     <Table.Td>{new Date(payment.pay_at).getHours().toString().padStart(2, '0')}:{new Date(payment.pay_at).getMinutes().toString().padStart(2, '0')}</Table.Td>
                     <Table.Td>{payment.products[0] ? payment.products[0].name:''}{payment.products[1] ? ' など':''}</Table.Td>
                     <Table.Td>{payment.price}円</Table.Td>
