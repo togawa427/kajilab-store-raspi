@@ -14,7 +14,7 @@ export default async function AdminHome() {
             <Link href={"/admin/arrival"} className="flex-1 mx-2 mr-10 h-fit">
                 <Admin.ArrivalModeButton/>
             </Link>
-            <Link href={"/product/1"} className="flex-1 mx-2 ml-10 h-fit">
+            <Link href={"/admin/edit"} className="flex-1 mx-2 ml-10 h-fit">
                 <Admin.EditModeButton/>
             </Link>
         </div>

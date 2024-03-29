@@ -35,6 +35,15 @@ type CreateProductType = {
     tag_id: number;
 }
 
+type UpdateProductType = {
+    id: number;
+    name: string;
+    barcode: number;
+    price: number;
+    stock: number;
+    tag_id: number;
+}
+
 export const getPayments = async (): Promise<Payment[]> => {
     //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
     const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {cache: "no-store"})  // SSR
@@ -160,6 +169,28 @@ export const createProduct = async (name: string, barcode:number, price: number,
         },
         body: JSON.stringify(requestProduct)
     });
+
+    console.log(res.status)
+    return res.status
+}
+
+export const updateProduct = async (id: number, name: string, barcode: number, price: number, stock: number, tagId: number): Promise<number> => {
+    let requestProduct: UpdateProductType = {
+        id: id,
+        name: name,
+        barcode: barcode,
+        price: price,
+        stock: stock,
+        tag_id: tagId, 
+    }
+
+    const res = await fetch(`${baseURL}/api/v1/products`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestProduct)
+    })
 
     console.log(res.status)
     return res.status
