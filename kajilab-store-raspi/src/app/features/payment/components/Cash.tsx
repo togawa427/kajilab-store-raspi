@@ -1,14 +1,15 @@
-import { Button } from '@mantine/core'
+import { Button, rem } from '@mantine/core'
 import React from 'react'
-import { IconChevronsLeft } from "@tabler/icons-react"
+import { IconChevronsLeft, IconLoader2 } from "@tabler/icons-react"
 
 type CashPageProps = {
   totalPrice: number;
   setPaymentModeBase: any;
   handleCashPayButton: () => void;
+  loading: boolean;
 }
 
-const Cash = ({totalPrice, setPaymentModeBase, handleCashPayButton}: CashPageProps) => {
+const Cash = ({totalPrice, setPaymentModeBase, handleCashPayButton, loading}: CashPageProps) => {
 
   return (
     <div>
@@ -23,9 +24,15 @@ const Cash = ({totalPrice, setPaymentModeBase, handleCashPayButton}: CashPagePro
         <div className="mt-2 text-6xl">↓</div>
         <div className="mt-2">
           <button className="w-10/12 h-48 bg-celadon-100 rounded-xl shadow-xl active:bg-celadon-200" onClick={handleCashPayButton}>
-            <div className="text-8xl font-extrabold">
-              投 入 完 了
-            </div>
+            {loading ? (
+              <div className="flex justify-center animate-spin">
+                <IconLoader2
+                  style={{ width: rem(100), height: rem(100) }}
+                />
+              </div> // くるくるの要素
+            ) : (
+              <div className="text-8xl font-extrabold">投 入 完 了</div> // 通常のボタンのテキスト
+            )}
           </button>
         </div>
       </div>
