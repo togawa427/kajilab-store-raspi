@@ -1,5 +1,5 @@
 import { BuyProduct } from "./app/features/payment/type";
-import { Arrival, Payment, Product } from "./types/json";
+import { Arrival, Payment, Product, User } from "./types/json";
 import { CartProduct } from "./types/product";
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -194,4 +194,14 @@ export const updateProduct = async (id: number, name: string, barcode: number, p
 
     console.log(res.status)
     return res.status
+}
+
+export const getUser = async (): Promise<User> => {
+    //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
+    const res = await fetch(`${baseURL}/api/v1/users/1080123456788`, {cache: "no-store"})  // SSR
+    console.log(res)
+
+    const user = await res.json()
+    console.log(user)
+    return user
 }

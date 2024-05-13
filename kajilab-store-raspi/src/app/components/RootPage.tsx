@@ -29,6 +29,11 @@ const RootPage = ({payments}:RootPageProps) => {
           <Button fullWidth variant="filled" color='red'>商店係モード</Button>
         </Link>
       </div>
+      <div className="absolute bottom-5 right-14">
+        <Link href={"/kajilabpay"}>
+          <Button fullWidth variant="filled" color="orange">梶研Pay関連</Button>
+        </Link>
+      </div>
       {/* <div className="text-right">
         <Link href={`http://localhost:3002/payment`}>
           <Button>購入画面へ</Button>

@@ -40,3 +40,10 @@ export type Product = {
     tag_id: number;
     image_path: string;
 }
+
+export type User = {
+    id: number;
+    name: string;
+    debt: number;
+    barcode: string;
+}
