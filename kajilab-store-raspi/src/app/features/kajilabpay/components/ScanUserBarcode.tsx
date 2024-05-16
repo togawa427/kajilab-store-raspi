@@ -46,7 +46,7 @@ const ScanUserBarcode = ({handleScanBarcode, barcode, setBarcode}: InputBarcodeP
 
   return (
     <div>
-      <p>Scanned Barcode: {barcode}(スペースでリセット)</p>
+      {/* <p>Scanned Barcode: {barcode}(スペースでリセット)</p> */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 "use client"
-import { getUser } from "@/api"
+import { getUser, updateUserDebt } from "@/api"
 import { User } from "@/types/json"
 import * as Kajilabpay from "@/app/features/kajilabpay/components/Index"
 import { Button, rem } from "@mantine/core"
@@ -9,6 +9,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { Notifications, notifications } from "@mantine/notifications"
 
 const Base = () => {
   const [loading, {toggle}] = useDisclosure();
@@ -19,35 +20,43 @@ const Base = () => {
   const router = useRouter();
 
   // バーコードをスキャンした時の処理
-  const handleScanBarcode = async (barcode: number) => {
-    const scannedUser = await getUser(String(barcode));
+  const handleScanBarcode = async (barcode: string) => {
+    const scannedUser = await getUser(barcode);
     if(scannedUser.id != null){
       // 該当のユーザがヒットした時のみ編集画面へ
       setUser(scannedUser)
       setKajilabpayMode(1)
+    } else if (barcode.slice(0,3) != "108") {
+      // ユーザのバーコードでない場合
+      notifications.show({
+        title: "異なる種類のバーコード",
+        message: "梶研Pay以外のバーコードが読み取られました",
+        color:"red",
+        style: (theme) => ({
+          style: { backgroundColor: 'red' }
+        })
+      })
+    } else {
+      // 該当のユーザが見つからなかった場合
+      notifications.show({
+        title: "存在しないユーザ",
+        message: "未登録の梶研Payカードが読み取られました",
+        color:"red",
+        style: (theme) => ({
+          style: { backgroundColor: 'red' }
+        })
+      })
     }
-    // const scannedProduct = await getProductByBarcode(barcode);
-    // if(scannedProduct.id != null){
-    //   // 該当の商品がヒットした時のみ編集画面へ
-    //   setProduct(scannedProduct)
-    //   form.setValues({
-    //     newBarcode: scannedProduct.barcode,
-    //     newName: scannedProduct.name,
-    //     newPrice: scannedProduct.price,
-    //     newStock: scannedProduct.stock,
-    //     newTagId: scannedProduct.tag_id,
-    //   })
-    //   setEditMode(1)
-    // }
   }
   
   // 現金で「投入完了」を押した時の処理
-  const handleCashPayButton= async () => {
+  const handleCashPayButton= async (increaseDebt: number) => {
     // changePrepaidMode()
-    if(!loading){
+    if(!loading && user){
       toggle
       console.log("チャージ！！")
       // const status = await createPayment(buyProducts, "cash")
+      const status = await updateUserDebt(user.id, user.debt + increaseDebt)
       toggle
       router.push("/")
       router.refresh()
@@ -55,6 +64,7 @@ const Base = () => {
   }
 
   if(kajilabpayMode == 0){
+    // 梶研Payカードスキャン画面
     return(
       <div>
         <div className="mt-2">
@@ -69,7 +79,7 @@ const Base = () => {
           barcode={scannedBarcode}
           setBarcode={setScanedBarcode}
         />
-        <div className="text-center items-center mt-10">
+        <div className="text-center items-center mt-5">
           <div className="text-7xl font-bold p-3">梶研Payカードを</div>
           <div className="text-7xl font-bold p-3">スキャンしてください</div>
           <Image
@@ -80,9 +90,11 @@ const Base = () => {
             alt="Picture of kajilabpay scan method"
           />
         </div>
+        <Notifications className="text-2xl"/>
       </div>
     )
   }else if(kajilabpayMode == 1 && user){
+    // チャージ画面
     return (
       <div>
         <div className="mt-2">
@@ -113,7 +125,7 @@ const Base = () => {
             <div className="mt-2 text-6xl">↓</div>
             <div className="mt-2">
               {(user.debt + chargeAmount) < 2000 ? ( 
-                <button className="w-10/12 h-48 bg-celadon-100 rounded-xl shadow-xl active:bg-celadon-200" onClick={handleCashPayButton}>
+                <button className="w-10/12 h-48 bg-celadon-100 rounded-xl shadow-xl active:bg-celadon-200" onClick={() => handleCashPayButton(chargeAmount)}>
                   {loading ? (
                     <div className="flex justify-center animate-spin">
                       <IconLoader2
@@ -134,6 +146,9 @@ const Base = () => {
         </div>
       </div>
     )
+  } else if(kajilabpayMode == 2){
+    // ユーザ登録
+    
   }
 }
 

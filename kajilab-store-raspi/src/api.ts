@@ -44,6 +44,11 @@ type UpdateProductType = {
     tag_id: number;
 }
 
+type UpdateUserDebtType = {
+    id: number;
+    debt: number;
+}
+
 export const getPayments = async (): Promise<Payment[]> => {
     //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
     const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {cache: "no-store"})  // SSR
@@ -198,10 +203,27 @@ export const updateProduct = async (id: number, name: string, barcode: number, p
 
 export const getUser = async (barcode: string): Promise<User> => {
     //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
-    const res = await fetch(`${baseURL}/api/v1/users/1080123456788`, {cache: "no-store"})  // SSR
+    //const res = await fetch(`${baseURL}/api/v1/users/1080123456788`, {cache: "no-store"})  // SSR
+    const res = await fetch(`${baseURL}/api/v1/users/${barcode}`, {cache: "no-store"})  // SSR
     console.log(res)
 
     const user = await res.json()
     console.log(user)
     return user
+}
+
+export const updateUserDebt = async (id: number, debt: number): Promise<number> => {
+    let requestUserDebt: UpdateUserDebtType = {
+        id: id,
+        debt: debt,
+    }
+    const res = await fetch(`${baseURL}/api/v1/users/debt`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestUserDebt)
+    })
+
+    return res.status
 }
