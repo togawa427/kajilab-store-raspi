@@ -1,8 +1,8 @@
 "use client"
-import { getUser, updateUserDebt } from "@/api"
+import { createUser, getUser, updateUserDebt } from "@/api"
 import { User } from "@/types/json"
 import * as Kajilabpay from "@/app/features/kajilabpay/components/Index"
-import { Button, rem } from "@mantine/core"
+import { Button, TextInput, rem } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { IconChevronsLeft, IconLoader2 } from "@tabler/icons-react"
 import Image from "next/image"
@@ -10,10 +10,12 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Notifications, notifications } from "@mantine/notifications"
+import { useForm } from "@mantine/form"
 
 const Base = () => {
   const [loading, {toggle}] = useDisclosure();
   const [scannedBarcode, setScanedBarcode] = useState("")
+  const [newUserBarcode, setNewUserBarcode] = useState("")
   const [chargeAmount, setChargeAmount] = useState(1000);
   const [kajilabpayMode, setKajilabpayMode] = useState(0);
   const [user, setUser] = useState<User>();
@@ -22,11 +24,7 @@ const Base = () => {
   // バーコードをスキャンした時の処理
   const handleScanBarcode = async (barcode: string) => {
     const scannedUser = await getUser(barcode);
-    if(scannedUser.id != null){
-      // 該当のユーザがヒットした時のみ編集画面へ
-      setUser(scannedUser)
-      setKajilabpayMode(1)
-    } else if (barcode.slice(0,3) != "108") {
+    if(barcode.slice(0,3) != "108"){
       // ユーザのバーコードでない場合
       notifications.show({
         title: "異なる種類のバーコード",
@@ -36,16 +34,25 @@ const Base = () => {
           style: { backgroundColor: 'red' }
         })
       })
+      return
+    }
+    if(scannedUser.id != null){
+      // 該当のユーザがヒットした時のみ編集画面へ
+      setUser(scannedUser)
+      setKajilabpayMode(1)
     } else {
+      console.log("ユーザいないよ")
+      setKajilabpayMode(2)
+      setNewUserBarcode(barcode)
       // 該当のユーザが見つからなかった場合
-      notifications.show({
-        title: "存在しないユーザ",
-        message: "未登録の梶研Payカードが読み取られました",
-        color:"red",
-        style: (theme) => ({
-          style: { backgroundColor: 'red' }
-        })
-      })
+      // notifications.show({
+      //   title: "存在しないユーザ",
+      //   message: "未登録の梶研Payカードが読み取られました",
+      //   color:"red",
+      //   style: (theme) => ({
+      //     style: { backgroundColor: 'red' }
+      //   })
+      // })
     }
   }
   
@@ -62,6 +69,29 @@ const Base = () => {
       router.refresh()
     }
   }
+
+  const handleSubmitForm = async() => {
+    if(!loading){
+      toggle
+      console.log("ユーザ登録！！")
+      // const status = await createPayment(buyProducts, "cash")
+      // const status = await updateUserDebt(user.id, user.debt + increaseDebt)
+      const status = await createUser(form.values.newName, newUserBarcode)
+      toggle
+      router.push("/")
+      router.refresh()
+    }
+  }
+
+  const form = useForm({
+    initialValues: {
+      newName: '',
+    },
+
+    validate: {
+      newName: (value) => (value == '' ? "ユーザ名を入力してください": null)
+    }
+  })
 
   if(kajilabpayMode == 0){
     // 梶研Payカードスキャン画面
@@ -109,7 +139,7 @@ const Base = () => {
               <p className="text-8xl font-bold mt-5">{chargeAmount}円</p>
             </div>
             <div className="text-center bg-white bg-opacity-70 rounded-lg px-5 py-3">
-              <p className="text-2xl">togawaの残高</p>
+              <p className="text-2xl font-bold">{user.name}の残高</p>
               <p className="text-2xl">現在</p>
               <p className="text-2xl">{user.debt}円</p>
               <p className="text-2xl">チャージ後</p>
@@ -148,7 +178,41 @@ const Base = () => {
     )
   } else if(kajilabpayMode == 2){
     // ユーザ登録
-    
+    return(
+      <div>
+        <div className="mt-2">
+          <Link href={"/"}>
+          <Button variant="light" color="gray" className="mt-5">
+              <IconChevronsLeft/><div className="text-xl">キャンセル</div>
+          </Button>
+          </Link>
+        </div>
+        <div className="text-center items-center mt-5 mx-52 px-44 py-10 bg-white bg-opacity-70 rounded-xl">
+          <p className="text-7xl font-bold">ユーザ登録</p>
+          <form onSubmit={form.onSubmit(handleSubmitForm)}>
+            {/* <p className="text-3xl mt-10">ユーザ番号</p>
+            <TextInput
+              size="xl"
+              disabled
+              value={newUserBarcode}
+            /> */}
+            <p className="text-3xl mt-5">ユーザ名</p>
+            <TextInput
+              size='xl'
+              {...form.getInputProps('newName')}
+            />
+            <Button type="submit" fullWidth size='xl' className="mt-5">
+              確定
+            </Button>
+          </form>
+        </div>
+        <div className="mx-52">
+          <div className='mt-2 text-2xl flex flex-row-reverse text-gray-500'>
+            梶研Payカード番号: {newUserBarcode}
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 

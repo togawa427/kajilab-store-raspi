@@ -44,6 +44,11 @@ type UpdateProductType = {
     tag_id: number;
 }
 
+type CreateUserType = {
+    name: string;
+    barcode: string; 
+}
+
 type UpdateUserDebtType = {
     id: number;
     debt: number;
@@ -210,6 +215,24 @@ export const getUser = async (barcode: string): Promise<User> => {
     const user = await res.json()
     console.log(user)
     return user
+}
+
+export const createUser = async (name: string, barcode: string): Promise<number> => {
+    let requestUser: CreateUserType = {
+        name: name,
+        barcode: barcode,
+    }
+
+    const res = await fetch(`${baseURL}/api/v1/users`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestUser)
+    });
+
+    console.log(res.status)
+    return res.status
 }
 
 export const updateUserDebt = async (id: number, debt: number): Promise<number> => {
