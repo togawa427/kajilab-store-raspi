@@ -41,12 +41,26 @@ const Base = () => {
   }
 
   // 現金で「投入完了」を押した時の処理
-  const handleCashPayButton= async () => {
+  const handleCashPayButton = async () => {
     // changePrepaidMode()
     if(!loading){
       toggle
       console.log("現金提出")
       const status = await createPayment(buyProducts, "cash")
+      toggle
+      router.push("/")
+      router.refresh()
+    }
+  }
+
+  // 梶研Payでの購入確定
+  const handleKajilabPayButton = async (userBarcode: string) => {
+    // changePrepaidMode()
+    if(!loading){
+      toggle
+      console.log("梶研Pay提出")
+      console.log(userBarcode)
+      //const status = await createPayment(buyProducts, "card")
       toggle
       router.push("/")
       router.refresh()
@@ -112,7 +126,12 @@ const Base = () => {
   else if(paymentMode == 2) {
     return(
       <div>
-        <Payment.Credit totalPrice={totalPrice} setPaymentModeBase={() => setPaymentMode(0)}/>
+        <Payment.KajilabpayPage
+          totalPrice={totalPrice}
+          setPaymentModeBase={() => setPaymentMode(0)}
+          handleKajilabPayButton={handleKajilabPayButton}
+          loading={loading}
+        />
       </div>
     )
   }
