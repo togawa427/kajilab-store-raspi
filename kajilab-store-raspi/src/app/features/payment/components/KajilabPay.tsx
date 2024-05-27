@@ -45,10 +45,11 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
       return
     }
     if(scannedUser.id != null){
-      // 該当のユーザがヒットした時のみ編集画面へ
+      // 該当のユーザがヒットした時
+      handleKajilabPayButton(scannedUser)
       notifications.show({
         title: "支払い後の残高",
-        message: scannedUser.name + "の残高：" + scannedUser.debt,
+        message: scannedUser.name + "の残高：" + (scannedUser.debt-totalPrice),
         color:"blue",
         
         style: (theme) => ({
@@ -56,7 +57,6 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
           // fontSize: rem(80)
         })
       })
-      handleKajilabPayButton()
     } else {
       console.log("ユーザいないよ")
       // 該当のユーザが見つからなかった場合

@@ -109,7 +109,7 @@ export const deleteArrival = async (id: number) => {
 }
 
 
-export const createPayment = async (buyProducts: BuyProduct[], method: string) => {
+export const createPayment = async (buyProducts: BuyProduct[], method: string, userNumber: string) => {
     const currentDatetime = new Date().toISOString();
     let cartProducts: CreatePaymentProductType[] = []
     buyProducts.map((buyProduct) => (
@@ -122,7 +122,7 @@ export const createPayment = async (buyProducts: BuyProduct[], method: string) =
     const requestPayment:CreatePaymentType = {
         pay_at: currentDatetime,
         method: method,
-        user_number: "",
+        user_number: userNumber,
         products: cartProducts
     }
 
@@ -250,3 +250,4 @@ export const updateUserDebt = async (id: number, debt: number): Promise<number> 
 
     return res.status
 }
+

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, LoadingOverlay } from "@mantine/core";
 import { IconChevronsLeft } from "@tabler/icons-react"
 import * as Payment from "@/app/features/payment/components/Index"
-import { Product } from "@/types/json";
+import { Product, User } from "@/types/json";
 import Link from "next/link";
 import { createPayment, getProductByBarcode } from "@/api";
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -11,8 +11,6 @@ import { BuyProduct } from '../type';
 import { updateTotalPrice } from '../utils';
 import { updateAddedProductList } from '@/utils/product';
 import { Notifications, notifications } from '@mantine/notifications';
-import Cash from './Cash';
-import Credit from './Credit';
 import { useDisclosure } from '@mantine/hooks';
 
 const Base = () => {
@@ -46,7 +44,7 @@ const Base = () => {
     if(!loading){
       toggle
       console.log("現金提出")
-      const status = await createPayment(buyProducts, "cash")
+      const status = await createPayment(buyProducts, "cash", "")
       toggle
       router.push("/")
       router.refresh()
@@ -54,12 +52,13 @@ const Base = () => {
   }
 
   // 梶研Payでの購入確定
-  const handleKajilabPayButton = async (userBarcode: string) => {
+  const handleKajilabPayButton = async (user: User) => {
     // changePrepaidMode()
     if(!loading){
       toggle
       console.log("梶研Pay提出")
-      console.log(userBarcode)
+      console.log(user.barcode)
+      const status = await createPayment(buyProducts, "card", user.barcode)
       //const status = await createPayment(buyProducts, "card")
       toggle
       router.push("/")
