@@ -12,6 +12,7 @@ import { updateTotalPrice } from '../utils';
 import { updateAddedProductList } from '@/utils/product';
 import { Notifications, notifications } from '@mantine/notifications';
 import { useDisclosure } from '@mantine/hooks';
+import useSound from 'use-sound';
 
 const Base = () => {
   const [paymentMode, setPaymentMode] = useState(0) // 0:カート 1:現金 2:学生証
@@ -20,6 +21,14 @@ const Base = () => {
   const [loading, {toggle}] = useDisclosure();
 
   const router = useRouter();
+
+  const [playCashSound] = useSound("/samplesound.mp3", {
+    interrupt: true
+  });
+
+  const [playKajilabPaySound] = useSound("/samplesound.mp3", {
+    interrupt: true
+  });
 
   const handleScanBarcode = async (barcode: number) => {
     const buyProduct = await getProductByBarcode(Number(barcode))
@@ -43,6 +52,7 @@ const Base = () => {
     // changePrepaidMode()
     if(!loading){
       toggle
+      playCashSound()
       console.log("現金提出")
       const status = await createPayment(buyProducts, "cash", "")
       toggle
@@ -56,6 +66,7 @@ const Base = () => {
     // changePrepaidMode()
     if(!loading){
       toggle
+      playKajilabPaySound()
       console.log("梶研Pay提出")
       console.log(user.barcode)
       const status = await createPayment(buyProducts, "card", user.barcode)
