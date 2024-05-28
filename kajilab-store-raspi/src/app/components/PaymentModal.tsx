@@ -31,7 +31,7 @@ const PaymentModal = ({deletedPayment, modalDelete}: RootPageProps) => {
       <div className='text-xl my-2'>合計金額:{deletedPayment.price}</div>
       <div>（内訳）</div>
       {deletedPayment.products.map((paymentProduct) => (
-        <div>{paymentProduct.name} {paymentProduct.quantity}個 : {paymentProduct.unit_price * paymentProduct.quantity}</div>
+        <div key={paymentProduct.id}>{paymentProduct.name} {paymentProduct.quantity}個 : {paymentProduct.unit_price * paymentProduct.quantity}</div>
       ))}
       <div className="mx-auto text-center">
         <Button variant="light" color='red' fullWidth loading={loading} onClick={handleDelete}>削除</Button>

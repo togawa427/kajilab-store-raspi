@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '@mantine/core/styles.css';
 import { Notifications } from '@mantine/notifications';
+import { Suspense } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="container mx-auto w-11/12 bg-yellow-200 text-slate-900">
+      <Suspense fallback={<div></div>}>
       <MantineProvider>
         {children}
       </MantineProvider>
+      </Suspense>
       </body>
     </html>
   )

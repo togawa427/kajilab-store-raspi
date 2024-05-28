@@ -32,7 +32,7 @@ const ArrivalModal = ({deletedArrival, modalDelete}: ArrivalModalProps) => {
       <div className='text-xl my-2'>出金額:{deletedArrival.money}</div>
       <div>（内訳）</div>
       {deletedArrival.products.map((arrivalProduct) => (
-        <div>{arrivalProduct.name} {arrivalProduct.quantity}個</div>
+        <div key={arrivalProduct.id}>{arrivalProduct.name} {arrivalProduct.quantity}個</div>
       ))}
       <div className="mx-auto text-center">
         <Button variant="light" color='red' fullWidth loading={loading} onClick={handleDelete}>削除</Button>
