@@ -22,11 +22,11 @@ const Base = () => {
 
   const router = useRouter();
 
-  const [playCashSound] = useSound("/samplesound.mp3", {
+  const [playCashSound] = useSound("/cashpay.mp3", {
     interrupt: true
   });
 
-  const [playKajilabPaySound] = useSound("/samplesound.mp3", {
+  const [playKajilabPaySound] = useSound("/kajilabpay.mp3", {
     interrupt: true
   });
 

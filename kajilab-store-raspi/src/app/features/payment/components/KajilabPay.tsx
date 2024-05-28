@@ -88,11 +88,11 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
 
       <div className="text-center items-center mt-5">
         <div className="mt-5 text-9xl font-extrabold">{totalPrice} 円</div>
-        <div className="text-6xl font-bold p-3 mt-7">梶研Payカードをスキャンしてください</div>
+        <div className="text-5xl font-bold p-3 mt-7">梶研Payカードをスキャンしてください</div>
         <Image
           className="mx-auto mt-10"
           src="/kjlbcard-scanmethod.jpg"
-          width={600}
+          width={500}
           height={300}
           alt="Picture of kajilabpay scan method"
         />

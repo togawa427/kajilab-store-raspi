@@ -31,7 +31,7 @@ const RootPage = ({payments}:RootPageProps) => {
       </div>
       <div className="absolute bottom-5 right-14">
         <Link href={"/kajilabpay"}>
-          <Button fullWidth variant="filled" color="orange">梶研Pay関連</Button>
+          <Button size='xl' fullWidth variant="filled" color="orange">梶研Pay関連</Button>
         </Link>
       </div>
       {/* <div className="text-right">

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Notifications, notifications } from "@mantine/notifications"
 import { useForm } from "@mantine/form"
+import useSound from "use-sound"
 
 const Base = () => {
   const [loading, {toggle}] = useDisclosure();
@@ -20,6 +21,10 @@ const Base = () => {
   const [kajilabpayMode, setKajilabpayMode] = useState(0);
   const [user, setUser] = useState<User>();
   const router = useRouter();
+
+  const [playChargeSound] = useSound("/kajilabcharge.mp3", {
+    interrupt: true
+  });
 
   // バーコードをスキャンした時の処理
   const handleScanBarcode = async (barcode: string) => {
@@ -56,15 +61,24 @@ const Base = () => {
     }
   }
   
-  // 現金で「投入完了」を押した時の処理
+  // 「チャージ」を押した時の処理
   const handleCashPayButton= async (increaseDebt: number) => {
     // changePrepaidMode()
     if(!loading && user){
       toggle
       console.log("チャージ！！")
+      playChargeSound()
       // const status = await createPayment(buyProducts, "cash")
       const status = await updateUserDebt(user.id, user.debt + increaseDebt)
       toggle
+      notifications.show({
+        title: "現在の残高",
+        message: user.name + "：" + (user.debt + increaseDebt),
+        color:"blue",
+        style: (theme) => ({
+          style: { backgroundColor: 'blue' }
+        })
+      })
       router.push("/")
       router.refresh()
     }
@@ -115,7 +129,7 @@ const Base = () => {
           <Image
             className="mx-auto mt-10"
             src="/kjlbcard-scanmethod.jpg"
-            width={700}
+            width={600}
             height={300}
             alt="Picture of kajilabpay scan method"
           />
