@@ -1,3 +1,4 @@
+"use client"
 import { deleteArrival } from '@/api';
 import { Arrival } from '@/types/json';
 import { Button } from '@mantine/core';
