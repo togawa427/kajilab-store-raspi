@@ -18,7 +18,7 @@ const Base = () => {
   const [paymentMode, setPaymentMode] = useState(0) // 0:カート 1:現金 2:学生証
   const [buyProducts, setBuyProducts] = useState<Array<BuyProduct>>([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [loading, {toggle}] = useDisclosure();
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -51,11 +51,11 @@ const Base = () => {
   const handleCashPayButton = async () => {
     // changePrepaidMode()
     if(!loading){
-      toggle
+      setLoading(true)
       playCashSound()
       console.log("現金提出")
       const status = await createPayment(buyProducts, "cash", "")
-      toggle
+      setLoading(false)
       router.push("/")
       router.refresh()
     }
@@ -64,17 +64,13 @@ const Base = () => {
   // 梶研Payでの購入確定
   const handleKajilabPayButton = async (user: User) => {
     // changePrepaidMode()
-    if(!loading){
-      toggle
-      playKajilabPaySound()
-      console.log("梶研Pay提出")
-      console.log(user.barcode)
-      const status = await createPayment(buyProducts, "card", user.barcode)
-      //const status = await createPayment(buyProducts, "card")
-      toggle
-      router.push("/")
-      router.refresh()
-    }
+    playKajilabPaySound()
+    console.log("梶研Pay提出")
+    console.log(user.barcode)
+    const status = await createPayment(buyProducts, "card", user.barcode)
+    //const status = await createPayment(buyProducts, "card")
+    router.push("/")
+    router.refresh()
   }
 
   // ページ遷移時はパラムデータを使う
@@ -141,6 +137,7 @@ const Base = () => {
           setPaymentModeBase={() => setPaymentMode(0)}
           handleKajilabPayButton={handleKajilabPayButton}
           loading={loading}
+          setLoading={setLoading}
         />
       </div>
     )
