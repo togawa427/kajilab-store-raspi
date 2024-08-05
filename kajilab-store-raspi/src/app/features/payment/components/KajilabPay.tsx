@@ -100,7 +100,7 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
         <Image
           className="mx-auto mt-10"
           src="/kjlbcard-scanmethod.jpg"
-          width={500}
+          width={350}
           height={300}
           alt="Picture of kajilabpay scan method"
         />
