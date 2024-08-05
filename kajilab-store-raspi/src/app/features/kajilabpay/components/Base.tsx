@@ -130,7 +130,7 @@ const Base = () => {
           <Image
             className="mx-auto mt-10"
             src="/kjlbcard-scanmethod.jpg"
-            width={600}
+            width={400}
             height={300}
             alt="Picture of kajilabpay scan method"
           />
