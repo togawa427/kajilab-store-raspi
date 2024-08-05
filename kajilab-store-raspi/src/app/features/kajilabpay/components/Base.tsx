@@ -14,6 +14,7 @@ import { useForm } from "@mantine/form"
 import useSound from "use-sound"
 
 const Base = () => {
+  const MAX_CHARGE_LIMIT = 3000;
   const [loading, {toggle}] = useDisclosure();
   const [scannedBarcode, setScanedBarcode] = useState("")
   const [newUserBarcode, setNewUserBarcode] = useState("")
@@ -157,7 +158,7 @@ const Base = () => {
               <p className="text-2xl">現在</p>
               <p className="text-2xl">{user.debt}円</p>
               <p className="text-2xl">チャージ後</p>
-              {(user.debt + chargeAmount) < 2000 ? ( 
+              {(user.debt + chargeAmount) < MAX_CHARGE_LIMIT ? ( 
                 <p className="text-2xl">{user.debt + chargeAmount}円</p>
               ) : (
                 <p className="text-2xl text-red-500">{user.debt + chargeAmount}円(上限オーバー)</p>
@@ -168,7 +169,7 @@ const Base = () => {
             <div className="mt-10 text-4xl font-bold">チャージ金額分を投入したら下のボタンを押してください</div>
             <div className="mt-2 text-6xl">↓</div>
             <div className="mt-2">
-              {(user.debt + chargeAmount) < 2000 ? ( 
+              {(user.debt + chargeAmount) < MAX_CHARGE_LIMIT ? ( 
                 <button className="w-10/12 h-48 bg-celadon-100 rounded-xl shadow-xl active:bg-celadon-200" onClick={() => handleCashPayButton(chargeAmount)}>
                   {loading ? (
                     <div className="flex justify-center animate-spin">
@@ -182,7 +183,7 @@ const Base = () => {
                 </button>
               ) : (
                 <button className="w-10/12 h-48 bg-red-500 rounded-xl shadow-xl pointer-events-none">
-                  <p className="text-6xl text-white">2000円以上は保有できません</p>
+                  <p className="text-6xl text-white">{MAX_CHARGE_LIMIT}円以上は保有できません</p>
                 </button>
               )}
             </div>
