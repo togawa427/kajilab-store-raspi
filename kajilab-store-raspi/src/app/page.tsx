@@ -4,6 +4,7 @@ import { useForm } from '@mantine/form';
 import React from 'react';
 import { getPayments } from '@/api';
 import RootPage from './components/RootPage';
+import ErrorPage from './components/ErrorPage';
 // import '@mantine/core/styles.css';
 // import { useClient } from 'react'; // 追加: useClientをインポート
 
@@ -15,8 +16,13 @@ export default async function Home() {
 
   const payments = await getPayments();
   console.log(payments)
-  console.log(payments[0].products)
+  console.log(payments.length)
 
+  if(payments.length == 0){
+    return(
+      <ErrorPage/>
+    )
+  }
   return (
     <RootPage payments={payments}/>
   )

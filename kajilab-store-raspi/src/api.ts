@@ -55,12 +55,16 @@ type UpdateUserDebtType = {
 }
 
 export const getPayments = async (): Promise<Payment[]> => {
-    //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
-    const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {cache: "no-store"})  // SSR
-    console.log(res)
+    try{
+        //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
+        const res = await fetch(`${baseURL}/api/v1/products/buy/logs?limit=5`, {cache: "no-store"})  // SSR
+        console.log(res)
 
-    const payments = await res.json()
-    return payments
+        const payments = await res.json()
+        return payments
+    } catch (error) {
+        return []
+    }
 }
 
 export const getProductByBarcode = async (barcode: number): Promise<Product> => {
@@ -75,12 +79,17 @@ export const getProductByBarcode = async (barcode: number): Promise<Product> => 
 
 export const getArrivals = async (): Promise<Arrival[]> => {
     //const res = await fetch("http://localhost:8080/api/v1/products/buy/logs?limit=5", {cache: "no-store"})  // SSR
-    const res = await fetch(`${baseURL}/api/v1/products/arrive/logs?limit=5`, {cache: "no-store"})  // SSR
-    console.log(res)
+    try{
+        const res = await fetch(`${baseURL}/api/v1/products/arrive/logs?limit=5`, {cache: "no-store"})  // SSR
+        console.log(res)
 
-    const arrivals = await res.json()
-    console.log(arrivals)
-    return arrivals
+        const arrivals = await res.json()
+        console.log(arrivals)
+        return arrivals
+
+    } catch (error) {
+        return []
+    }
 }
 
 
