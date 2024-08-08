@@ -1,6 +1,7 @@
 "use client"
 import { getProductByBarcode, updateProduct } from '@/api'
 import Barcode from '@/app/components/Barcode'
+import ErrorPage from '@/app/components/ErrorPage'
 import { Product } from '@/types/json'
 import { ActionIcon, Button, NumberInput, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -81,8 +82,6 @@ const Base = () => {
       newName: (value) => (value.length > 12 ? "12文字以内で入力してください": null)
     }
   })
-
-  
 
   if(editMode == 0){
     return(

@@ -68,13 +68,26 @@ export const getPayments = async (): Promise<Payment[]> => {
 }
 
 export const getProductByBarcode = async (barcode: number): Promise<Product> => {
-    //const res = await fetch(`http://localhost:8080/api/v1/products/134912341232`, {cache: "no-store"})
-    // const res = await fetch(`http://localhost:8080/api/v1/products/${barcode}`, {cache: "no-store"})
-    const res = await fetch(`${baseURL}/api/v1/products/${barcode}`, {cache: "no-store"})
-    console.log(res)
+    try{
+        //const res = await fetch(`http://localhost:8080/api/v1/products/134912341232`, {cache: "no-store"})
+        // const res = await fetch(`http://localhost:8080/api/v1/products/${barcode}`, {cache: "no-store"})
+        const res = await fetch(`${baseURL}/api/v1/products/${barcode}`, {cache: "no-store"})
+        console.log(res)
 
-    const product = await res.json()
-    return product
+        const product = await res.json()
+        return product
+    } catch (error) {
+        const product: Product = {
+            id: -1,
+            name: "",
+            barcode: -1,
+            price: 0,
+            stock: 0,
+            tag_id: 0,
+            image_path: ""
+        }
+        return product
+    }
 }
 
 export const getArrivals = async (): Promise<Arrival[]> => {
