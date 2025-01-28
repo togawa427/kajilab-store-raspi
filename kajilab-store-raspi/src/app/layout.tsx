@@ -6,6 +6,7 @@ import '@mantine/core/styles.css';
 import { Notifications } from '@mantine/notifications';
 import { Suspense } from 'react';
 import IPFilter from './components/IPFilter';
+import { notoSansJP } from '@/utils/fonts';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="container mx-auto w-11/12 bg-yellow-200 text-slate-900">
+      <body className={`${notoSansJP.className} container mx-auto w-11/12 bg-yellow-200 text-slate-900`}>
       <Suspense fallback={<div></div>}>
       <MantineProvider>
         {/* <IPFilter> */}
