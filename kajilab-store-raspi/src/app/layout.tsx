@@ -24,9 +24,9 @@ export default function RootLayout({
       <body className="container mx-auto w-11/12 bg-yellow-200 text-slate-900">
       <Suspense fallback={<div></div>}>
       <MantineProvider>
-        <IPFilter>
+        {/* <IPFilter> */}
           {children}
-        </IPFilter>
+        {/* </IPFilter> */}
       </MantineProvider>
       </Suspense>
       </body>
