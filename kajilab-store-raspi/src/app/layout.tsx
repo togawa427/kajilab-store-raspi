@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import '@mantine/core/styles.css';
 import { Notifications } from '@mantine/notifications';
 import { Suspense } from 'react';
+import IPFilter from './components/IPFilter';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body className="container mx-auto w-11/12 bg-yellow-200 text-slate-900">
       <Suspense fallback={<div></div>}>
       <MantineProvider>
-        {children}
+        <IPFilter>
+          {children}
+        </IPFilter>
       </MantineProvider>
       </Suspense>
       </body>

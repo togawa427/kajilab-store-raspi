@@ -105,6 +105,24 @@ export const getArrivals = async (): Promise<Arrival[]> => {
     }
 }
 
+export const getGlobalIP = async(): Promise<string> => {
+    try{
+        const res = await fetch(`http://httpbin.org/ip`, {cache: "no-store"})  // SSR
+        const ip = await res.json()
+        return ip.origin
+    } catch (error) {
+        console.log("http://httpbin.org/ip is error")
+        try{
+            const res2 = await fetch(`http://api.ipify.org`, {cache: "no-store"})
+            const ip2 = await res2.text()
+            return ip2
+        } catch (error2) {
+            console.log("http://api.ipify.org is error")
+            return ""
+        }
+    }
+}
+
 
 export const deletePayment = async (id: number) => {
     const res = await fetch(`${baseURL}/api/v1/products/buy/${id}`, {method: "DELETE"});
