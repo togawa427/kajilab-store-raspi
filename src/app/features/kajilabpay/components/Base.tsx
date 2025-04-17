@@ -104,7 +104,7 @@ const Base = () => {
     },
 
     validate: {
-      newName: (value) => (value == '' ? "ユーザ名を入力してください": null)
+      newName: (value:string) => (value == '' ? "ユーザ名を入力してください": null)
     }
   })
 

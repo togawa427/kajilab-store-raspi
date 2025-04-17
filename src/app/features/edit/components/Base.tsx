@@ -78,8 +78,8 @@ const Base = () => {
     },
 
     validate: {
-      newBarcode: (value) => (value==0 ? "バーコードを入力してください": null),
-      newName: (value) => (value.length > 12 ? "12文字以内で入力してください": null)
+      newBarcode: (value:number) => (value==0 ? "バーコードを入力してください": null),
+      newName: (value:string) => (value.length > 12 ? "12文字以内で入力してください": null)
     }
   })
 
