@@ -38,7 +38,7 @@ const Base = () => {
 
   const handleConfirmButton = async () => {
     const status = await createArrival(cartProducts, totalWithdrawal)
-    router.push("/admin")
+    router.push("/")
     router.refresh()
   }
   
