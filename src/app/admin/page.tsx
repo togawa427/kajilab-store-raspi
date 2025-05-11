@@ -25,7 +25,10 @@ export default async function AdminHome() {
         <Link href={"/"}>
           <Button fullWidth variant="filled" color='blue'>購入モード</Button>
         </Link>
-      </div>
+        </div>
+        <div className='mt-4 flex justify-end'>
+          <Admin.TestSound/>
+        </div>
     </div>
   )
 }
