@@ -40,6 +40,7 @@ const Base = () => {
         title: "存在しないバーコード",
         message: "未登録のバーコードが読み込まれました",
         color:"red",
+        autoClose: 3000,
         style: (theme) => ({
           style: { backgroundColor: 'red' }
         })

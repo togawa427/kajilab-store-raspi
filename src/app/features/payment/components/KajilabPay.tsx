@@ -31,6 +31,7 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
           title: "異なる種類のバーコード",
           message: "梶研Pay以外のバーコードが読み取られました",
           color:"red",
+          autoClose: 3000,
           style: (theme) => ({
             style: { backgroundColor: 'red' }
           })
@@ -43,6 +44,7 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
           title: "残高不足",
           message: scannedUser.name + "の残高：" + scannedUser.debt,
           color:"red",
+          autoClose: 3000,
           style: (theme) => ({
             style: { backgroundColor: 'red' }
           })
@@ -56,7 +58,7 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
           title: "支払い後の残高",
           message: scannedUser.name + "の残高：" + (scannedUser.debt-totalPrice),
           color:"blue",
-          
+          autoClose: 5000,
           style: (theme) => ({
             style: { backgroundColor: 'red' },
             // fontSize: rem(80)
@@ -69,6 +71,7 @@ const KajilabPay = ({totalPrice, setPaymentModeBase, handleKajilabPayButton, loa
           title: "存在しないユーザ",
           message: "未登録の梶研Payカードが読み取られました",
           color:"red",
+          autoClose: 3000,
           style: (theme) => ({
             style: { backgroundColor: 'red' }
           })

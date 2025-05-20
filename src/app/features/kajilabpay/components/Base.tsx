@@ -36,6 +36,7 @@ const Base = () => {
         title: "異なる種類のバーコード",
         message: "梶研Pay以外のバーコードが読み取られました",
         color:"red",
+        autoClose: 3000,
         style: (theme) => ({
           style: { backgroundColor: 'red' }
         })
@@ -76,6 +77,7 @@ const Base = () => {
         title: "現在の残高",
         message: user.name + "：" + (user.debt + increaseDebt),
         color:"blue",
+        autoClose: 5000,
         style: (theme) => ({
           style: { backgroundColor: 'blue' }
         })

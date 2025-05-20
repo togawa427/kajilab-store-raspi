@@ -1,5 +1,5 @@
 "use client"
-import { getProductByBarcode } from '@/api';
+import { getProductByBarcode, getUser } from '@/api';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Notifications, notifications } from '@mantine/notifications';
@@ -21,17 +21,23 @@ const InputBarcode = () => {
     console.log('Scanned Barcode:', scannedBarcode);
     // ここで必要な処理を追加する
     setBarcode(0); // バーコードをクリア
+    // const scannedUser = await getUser(scannedBarcode.toString());
     if(await isExistProduct(scannedBarcode)){
       // バーコードが存在するときはカートの画面へ遷移
       router.push(`/payment?barcode=${scannedBarcode}`)
       router.refresh()
     }
+    // else if(scannedUser){
+    //   // 梶研Payカードの場合
+    //   router.push(`/`)
+    // }
     else{
       // バーコードが存在しないときは警告のポップアップを出す
       notifications.show({
         title: "存在しないバーコード",
         message: "未登録のバーコードが読み込まれました",
         color:"red",
+        autoClose: 3000,
         style: (theme) => ({
           style: { backgroundColor: 'red' }
         })
