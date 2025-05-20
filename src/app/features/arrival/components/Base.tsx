@@ -14,7 +14,11 @@ import Barcode from '@/app/components/Barcode';
 import CartProductsList from '@/app/components/CartProductsList';
 import { useDisclosure } from '@mantine/hooks';
 
-const Base = () => {
+type PropsType = {
+  userBarcode: string
+}
+
+const Base = ({userBarcode}: PropsType) => {
   const [cartProducts, setCartProducts] = useState<Array<CartProduct>>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalWithdrawal, setTotalWithdrawal] = useState(0);
@@ -37,7 +41,7 @@ const Base = () => {
   }
 
   const handleConfirmButton = async () => {
-    const status = await createArrival(cartProducts, totalWithdrawal)
+    const status = await createArrival(cartProducts, totalWithdrawal, userBarcode)
     router.push("/")
     router.refresh()
   }
@@ -65,7 +69,7 @@ const Base = () => {
             setCartProducts={setCartProducts}
           />
       </div>
-      <div className="mt-2 flex flex-row-reverse">
+      <div className="mt-8 flex flex-row-reverse">
         <div>
           <Arrival.TotalPricePanel totalPrice={totalPrice}/>
           <Arrival.TotalWithdrawalPanel totalWithdrawal={totalWithdrawal} setTotalWithDrawal={setTotalWithdrawal} setScanedBarcode={setScanedBarcode}/>

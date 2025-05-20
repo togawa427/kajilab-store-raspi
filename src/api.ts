@@ -20,6 +20,7 @@ type CreatePaymentProductType = {
 type CreateArrivalType = {
     arrive_at: string;
     money: number;
+    user_barcode: string;
     products: CreateArrivalProductType[];
 }
 
@@ -175,7 +176,7 @@ export const createPayment = async (buyProducts: BuyProduct[], method: string, u
     });
 }
 
-export const createArrival = async (arrivalProducts: CartProduct[], withdrawal: number): Promise<number> => {
+export const createArrival = async (arrivalProducts: CartProduct[], withdrawal: number, userBarcode: string): Promise<number> => {
     const currentDatetime = new Date().toISOString();
     let cartProducts: CreateArrivalProductType[] = []
     arrivalProducts.map((arrivalProduct) => (
@@ -187,6 +188,7 @@ export const createArrival = async (arrivalProducts: CartProduct[], withdrawal: 
     const requestArrival: CreateArrivalType = {
         arrive_at: currentDatetime,
         money: withdrawal,
+        user_barcode: userBarcode,
         products: cartProducts
     }
 

@@ -1,12 +1,9 @@
 import React from 'react'
 import * as Arrival from "@/app/features/arrival/components/Index"
 
-
-const ArrivalPage = () => {
+const ArrivalPage = ({params}: {params: {userBarcode: string}}) => {
   return (
-    <div>
-        <Arrival.UserBarcodeBase/>
-    </div>
+    <Arrival.Base userBarcode={params.userBarcode}/>
 )
 }
 
