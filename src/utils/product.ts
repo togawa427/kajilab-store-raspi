@@ -3,7 +3,7 @@ import { BuyProduct } from "@/app/features/payment/type";
 import { Product } from "@/types/json";
 import { CartProduct } from "@/types/product";
 
-export const updateAddedProductList = (product: Product, quantity: number, addedProducts: BuyProduct[], setAddedProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>) => {
+export const updateAddedProductList = (product: Product, quantity: number, addedProducts: BuyProduct[], setAddedProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>): BuyProduct[] => {
   let isAdded = false
   let tmpBuyProducts = []
   addedProducts.map((addedProduct) => {
@@ -22,9 +22,10 @@ export const updateAddedProductList = (product: Product, quantity: number, added
   }
   setAddedProducts(tmpBuyProducts)
   console.log("商品リストが更新されたよ")
+  return tmpBuyProducts
 }
 
-export const removeCartProduct = (productId: number, cartProducts: BuyProduct[], setCartProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>) => {
+export const removeCartProduct = (productId: number, cartProducts: BuyProduct[], setCartProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>): BuyProduct[] => {
   let newCartProducts: BuyProduct[] = []
   cartProducts.map((cartProduct) => {
     if(cartProduct.product.id != productId){
@@ -33,9 +34,10 @@ export const removeCartProduct = (productId: number, cartProducts: BuyProduct[],
     }
   })
   setCartProducts(newCartProducts)
+  return newCartProducts
 }
 
-export const updateCartProductQuantity = (productId: number, cartProducts: BuyProduct[], newQuantity: number, setCartProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>) => {
+export const updateCartProductQuantity = (productId: number, cartProducts: BuyProduct[], newQuantity: number, setCartProducts: React.Dispatch<React.SetStateAction<BuyProduct[]>>): BuyProduct[] => {
   let newCartProducts: BuyProduct[] = []
   cartProducts.map((cartProduct) => {
     if(cartProduct.product.id == productId){
@@ -51,6 +53,7 @@ export const updateCartProductQuantity = (productId: number, cartProducts: BuyPr
     }
   })
   setCartProducts(newCartProducts)
+  return newCartProducts
 }
 
 export const updateTotalPrice = (buyProducts: CartProduct[], setTotalPrice: React.Dispatch<React.SetStateAction<number>>) => {

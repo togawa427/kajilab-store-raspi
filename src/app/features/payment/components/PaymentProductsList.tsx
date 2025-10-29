@@ -1,10 +1,10 @@
 "use client"
 import { ActionIcon, Button, NumberInput, ScrollArea, Table } from '@mantine/core'
 import React from 'react'
-import { Product } from '@/types/json'
 import {IconTrash } from '@tabler/icons-react'
 import { BuyProduct } from '../type'
 import { removeCartProduct, updateCartProductQuantity } from '@/utils/product'
+import { useRouter } from 'next/navigation'
 
 type PaymentProductsListProps = {
     buyProducts: BuyProduct[];
@@ -12,21 +12,36 @@ type PaymentProductsListProps = {
 }
 
 const PaymentProductsList = ({buyProducts, setCartProducts}:PaymentProductsListProps) => {
+    const router = useRouter();
+
+    const checkEmptyCartProducts = (cartProducts: BuyProduct[]) => {
+        if(cartProducts.length == 0){
+            router.push("/")
+            router.refresh()
+        }
+    }
 
     const handleRemoveProductButton = (productId: number) => {
-        removeCartProduct(productId, buyProducts, setCartProducts)
+        let afterCartProducts = removeCartProduct(productId, buyProducts, setCartProducts)
+        checkEmptyCartProducts(afterCartProducts)
     }
-    // const handleChangeProductQuantity = (productId: number, quantity: number|string) => {
-    //     let quantityNum:number = Number(quantity)
-    //     updateCartProductQuantity(productId, buyProducts, quantityNum, setCartProducts)
-    // }
+
     const handleIncrementProductQuantity = (buyProduct: BuyProduct) => {
         let quantity = buyProduct.quantity+1
-        updateCartProductQuantity(buyProduct.product.id, buyProducts, quantity, setCartProducts)
+        let afterCartProducts = updateCartProductQuantity(buyProduct.product.id, buyProducts, quantity, setCartProducts)
+        checkEmptyCartProducts(afterCartProducts)
     }
+
     const handleDecrementProductQuantity = (buyProduct: BuyProduct) => {
         let quantity = buyProduct.quantity-1
-        updateCartProductQuantity(buyProduct.product.id, buyProducts, quantity, setCartProducts)
+        let afterCartProducts
+        if(quantity <= 0){
+            // 数が0以下になったらカートから削除する
+            afterCartProducts = removeCartProduct(buyProduct.product.id, buyProducts, setCartProducts)
+        }else{
+            afterCartProducts = updateCartProductQuantity(buyProduct.product.id, buyProducts, quantity, setCartProducts)
+        }
+        checkEmptyCartProducts(afterCartProducts)
     }
 
   return (
