@@ -1,6 +1,9 @@
 import { BuyProduct } from "./app/features/payment/type";
 import { Arrival, Payment, Product, User } from "./types/json";
 import { CartProduct } from "./types/product";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -151,7 +154,10 @@ export const deleteArrival = async (id: number) => {
 
 
 export const createPayment = async (buyProducts: BuyProduct[], method: string, userNumber: string) => {
-    const currentDatetime = new Date().toISOString();
+    dayjs.extend(timezone);
+    dayjs.extend(utc);
+    const tokyoTime = dayjs().tz("Asia/Tokyo")
+    console.log(tokyoTime.format()); // 2025-11-06T09:50:24+09:00
     let cartProducts: CreatePaymentProductType[] = []
     buyProducts.map((buyProduct) => (
         cartProducts.push({
@@ -161,7 +167,7 @@ export const createPayment = async (buyProducts: BuyProduct[], method: string, u
         })
     ))
     const requestPayment:CreatePaymentType = {
-        pay_at: currentDatetime,
+        pay_at: tokyoTime.format(),
         method: method,
         user_number: userNumber,
         products: cartProducts
